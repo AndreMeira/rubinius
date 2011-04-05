@@ -37,7 +37,7 @@ next_url: what-is-rubinius
     1. [Etape de l'analyseur grammatical (parser)](/doc/fr/bytecode-compiler/parser/)
     1. [AST](/doc/fr/bytecode-compiler/ast/)
     1. [Etape du Generateur](/doc/fr/bytecode-compiler/generator/)
-    1. [Etape du l'Encodeur](/doc/fr/bytecode-compiler/encoder/)
+    1. [Etape de l'Encodeur](/doc/fr/bytecode-compiler/encoder/)
     1. [Etape d'Empaquetage](/doc/fr/bytecode-compiler/packager/)
     1. [Etape d'Ecriture](/doc/fr/bytecode-compiler/writer/)
     1. Printers
