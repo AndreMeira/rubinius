@@ -147,32 +147,36 @@ Guide" 2nd or 3rd Edition par Thomas et al [The Pragmatic Programmers
         puts 'hi'
       end
 
-  Since all classes in Ruby are also objects, they can have singleton classes.
-  The methods called "class methods" are just methods in the method_table of
-  the class's singleton class. The method +honk+ exists in the singleton class
-  for the class +Car+.
+  Comme les classes en Ruby sont aussi des objets, elles peuvent posséder leur classe singleton.
+  En Ruby, ce qu'on appelle une methode de classe, sont des justes des méthodes qui se trouve 
+  dans la table des méthodes de leur classe singleton. Dans l'exemple suivant, 
+  la méthode +honk+ existe dans la class singleton de l'objet/classe +Car+. 
 
       class Car
         def self.honk
         end
       end
-
-  In Rubinius, singleton classes are all instances of the class
-  SingletonClass. The singleton class for an object can be obtained by calling
-  the +singleton_class+ method.  The overall arrangement of concepts involved
-  here is sometimes referred to as the 'Meta-Object Protocol' or +MOP+.
+	
+  Dans Rubinius, les classes singletons sont toutes des instances de la classe
+  SingletonClass. La classe singleton d'un objet est accessible via la méthode 
+  +singleton_class+. 
+  
+  On se réfère parfois à l'ensemble de ces concepts sous le nom de 
+  "Meta-Object Protocol" ou pour faire court +MOP+.
 
 
 * _superclass_
 
-  The class that a particular class immediately inherits from. The class Object
-  is the superclass of all classes that do not inherit explicitly from a class.
-
+  En ruby la "superclass" est le nom de la class parente. La classe Object est à la racine
+  de toute classe. En particulier si une classe n'hérite explicitement d'aucune classe, 
+  elle hérite implicitement de la classe Object.
+  
       class A
       end
 
       class B < A
       end
 
-  Class A inherits from Object. In other words, A.superclass == Object. Class B
-  inherits explicitly from class A. So, B.superclass == A.
+  Dans cet exemple, la classe A hérite de la class Object. Autrement dit, A.superclass == Object.
+  La classe B hérite explicitement de A, donc B.superclass == A.
+  
