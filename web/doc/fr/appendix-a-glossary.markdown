@@ -149,7 +149,7 @@ Guide" 2nd or 3rd Edition par Thomas et al [The Pragmatic Programmers
 
   Comme les classes en Ruby sont aussi des objets, elles peuvent posséder leur classe singleton.
   En Ruby, ce qu'on appelle une methode de classe, est juste une méthode qui se trouve 
-  dans la table des méthodes de leur classe singleton. Dans l'exemple suivant, 
+  dans la table des méthodes de la classe singleton. Dans l'exemple suivant, 
   la méthode +honk+ existe dans la class singleton de l'objet/classe +Car+. 
 
       class Car
