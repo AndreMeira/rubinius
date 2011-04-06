@@ -1,41 +1,44 @@
 ---
-layout: doc_en
-title: Appendix B - Reading List
-previous: Appendix A - Glossary
+layout: doc_fr
+title: Appendix B - Lectures conseillées
+previous: Appendix A - Glossaire
 previous_url: appendix-a-glossary
 next: Terms Index
 next_url: terms-index
 review: true
 ---
 
-Building virtual machines in general and programming language implementations
-in particular requires some knowledge. Rubinius' goal is to lower the barrier
-by keeping as much as possible in Ruby but to hack on the garbage collector you
-have to understand what's going on behind the curtains.
+Concevoir une machine virtuelle et implémenter un langage demande des connaissances. 
+Le but de Rubinius est de repousser les frontières entre le langage et son implémentation,
+en vous permettant de rester à l'intérieur de Ruby lui-même - 
+et d'accéder à des ressources bas niveau. Mais avant que vous n'hackiez le 
+Garbage Collector (système de nettoyage de la mémoire) vous devez comprendre
+ce qui se passe sous le capot.
 
-This page contains references to books, online lectures, blog posts and any
-other publications you may find useful for working on Rubinius.
+Cette page contient des références bibliographiques, imprimées ou en ligne, 
+des adresses de blogs, et d'autres publications qui vous seront utiles 
+pour travailler avec Rubinius.
 
-NOTE that some of these links refer to outdated information about Rubinius.
+NOTE : certains liens peuvent contenir des informations périmées à propos de Rubinius.
 
-## Virtual machine
+## Machine virtuelle
 
   * [Smalltalk-80: language and its implementation](http://tinyurl.com/3a2pdq)
-    by Goldberg, Robson, Harrison (aka "The Blue Book"), implementation
-    chapters from part IV are [available online](http://tinyurl.com/6zlsd)
-  * [Virtual machines](http://tinyurl.com/3ydkqg) by Iain D. Craig
-  * Great posts by Adam Gardiner: [introduction](http://tinyurl.com/35y2jh),
+    par Goldberg, Robson, Harrison (aka "The Blue Book"), les chapitres 
+    sur l'implementation sont disponibles en ligne (http://tinyurl.com/6zlsd)
+  * [Virtual machines](http://tinyurl.com/3ydkqg) par Iain D. Craig
+  * Très bons articles d'Adam Gardiner: [introduction](http://tinyurl.com/35y2jh),
     [How send sites work](http://tinyurl.com/34c6e8)
 
 
-## Garbage collection
+## Collecte et nettoyage mémoire (Garbage collection)
 
   * [Garbage Collection: Algorithms for Automatic Dynamic Memory
-    Management](http://tinyurl.com/3dygmo) by Richard Jones
+    Management](http://tinyurl.com/3dygmo) par Richard Jones
   * [Garbage collection lectures](http://tinyurl.com/2mhek4)
 
 
-## Primitive methods
+## Primitives
 
   * [Ruby extensions and Smalltalk
     primitives](http://talklikeaduck.denhaven2.com/articles/2007/06/04/ruby-extensions-vs-smalltalk-primitives)
