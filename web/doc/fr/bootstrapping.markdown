@@ -1,15 +1,37 @@
 ---
-layout: doc_en
-title: Bootstrapping
-previous: Build System
+layout: doc_fr
+title: Démarrage (Bootstrapping)
+previous: Construction (Build System)
 previous_url: build-system
-next: Virtual Machine
+next: Machine virtuelle
 next_url: virtual-machine
 ---
 
-Bootstrapping is the process of building up functionality of the system until
-all Ruby code can be executed. There are seven stages to the bootstrap process:
+Le bootstrap est le process de construction des fonctionnalités requises par le système
+avant que du code Ruby puissent être executé. Le bootstrap comporte sept étapes.
 
+ 
+  1. VM: La machine virtuelle est capable de charger et d'executer du bytecode, d'envoyer
+     des messages (c'est-à-dire rechercher et executer des methodes). Toutes les 
+     fonctions primitives sont disponibles, bien que pas encore "branchées" en tant que 
+     méthodes Ruby.
+
+     Aussitôt après, la classe "Class" doit être manuellement configurée - 
+     de telle sorte qu'elle soit sa propre classe, et qu'elle ait la classe 
+     Module pour classe parente (superclass).
+     En plus des classes "Class" et "Module", un certains nombre d'autres classes,
+     dont Object, Tuple, LookupTable, et MethodTable, sont créées.
+     
+     Now that classes can be defined, 35 or so built in classes are told to
+     initialize themselves, symbols for top level methods (:object_id, :call,
+     :protected, etc) are created, basic exceptions are defined, and
+     primitives are registered. Finally IO gets hooked up. Also at this stage,
+     several fundamental Ruby methods are bound to primitives.
+
+     At this point there is enough defined behavior to begin to load up the
+     rest of the runtime kernel which is all defined in ruby. This has to be
+     done in several passes as the language grows.
+ 
   1. VM: The virtual machine is able to load and execute bytecode, send
      messages (i.e. look up and execute methods), and all primitive functions
      are available, but not yet hooked up as Ruby methods.
