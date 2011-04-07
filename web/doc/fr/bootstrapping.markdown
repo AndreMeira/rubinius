@@ -22,39 +22,22 @@ avant que du code Ruby puissent être executé. Le bootstrap comporte sept étap
      En plus des classes "Class" et "Module", un certains nombre d'autres classes,
      dont Object, Tuple, LookupTable, et MethodTable, sont créées.
      
-     Now that classes can be defined, 35 or so built in classes are told to
-     initialize themselves, symbols for top level methods (:object_id, :call,
-     :protected, etc) are created, basic exceptions are defined, and
-     primitives are registered. Finally IO gets hooked up. Also at this stage,
-     several fundamental Ruby methods are bound to primitives.
+     Maintenant que ces classes ont été définies, à peu près 35 classes natives (built-in)
+     reçoivent l'ordre de s'initialiser, les symboles (:object_id, :call,
+     :protected, etc) pour les méthodes de haut-niveau (top level methods) sont créés,
+     les expressions de base sont définies, les primitives sont enregistrées. 
+     Enfin, les entrées/sorties (I/O) sont branchées. C'est également à cette étape
+     que les plusieurs methodes fondamentales de Ruby sont liées aux primitives.
+     
+     A partir de là, les comportements sont suffisamment définis pour commencer à charger
+     le reste du noyau de l'environnement d'execution (kernel runtime) qui est 
+     entièrement défini en ruby. Cela doit être réalisé en plusieurs passe afin
+     d'enrichir le langage progressivement.
 
-     At this point there is enough defined behavior to begin to load up the
-     rest of the runtime kernel which is all defined in ruby. This has to be
-     done in several passes as the language grows.
- 
-  1. VM: The virtual machine is able to load and execute bytecode, send
-     messages (i.e. look up and execute methods), and all primitive functions
-     are available, but not yet hooked up as Ruby methods.
-
-     The Class class has to be manually set up this early in the process by
-     setting its class to be itself and its superclass to be Module. In
-     addition to Class and Module, a couple of other base classes are created
-     here including Object, Tuple, LookupTable, and MethodTable.
-
-     Now that classes can be defined, 35 or so built in classes are told to
-     initialize themselves, symbols for top level methods (:object_id, :call,
-     :protected, etc) are created, basic exceptions are defined, and
-     primitives are registered. Finally IO gets hooked up. Also at this stage,
-     several fundamental Ruby methods are bound to primitives.
-
-     At this point there is enough defined behavior to begin to load up the
-     rest of the runtime kernel which is all defined in ruby. This has to be
-     done in several passes as the language grows.
-
-  2. alpha: This starts the loading of Ruby code. The ability to open classes
-     and modules and define methods exists. The minimum functionality to
-     support the following methods is implemented in kernel/alpha.rb:
-
+  2. alpha: C'est ici qu'on commence à chargé le code Ruby. On peut désormais
+     ouvrir des classes et modules, et définir des méthodes. Le support des méthodes suivantes
+     est implémenté dans kernel/alpha.rb:
+     
        attr_reader :sym
        attr_writer :sym
        attr_accessor :sym
@@ -63,12 +46,13 @@ avant que du code Ruby puissent être executé. Le bootstrap comporte sept étap
        module_function :sym
        include mod
 
-     Also, it is possible to raise exceptions and cause the running process to
-     exit. This stage lays the foundation for the next two stages.
-
-  3. bootstrap: This stage continues to add the minimum functionality to
-     support loading platform and common. The primitive functions are added
-     for most of the kernel classes.
+     Par ailleurs, il est possible de lancer une exception et de mettre fin au processus en cours (exit). 
+     Cette étape pose les fondations nécéssaires aux deux prochaines étapes.
+     
+     
+  3. bootstrap: cette étape continue d'ajouter les fonctionnalités minimum 
+     requises pour charger la plateforme. Les fonctions primitives sont ajoutées à la
+     plupart des classes du noyau.
 
   4. platform: The FFI (foreign function interface) system is implemented and
      Ruby method interfaces to platform-specific functions are created.  Once
