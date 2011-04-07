@@ -54,10 +54,18 @@ avant que du code Ruby puissent être executé. Le bootstrap comporte sept étap
      requises pour charger la plateforme. Les fonctions primitives sont ajoutées à la
      plupart des classes du noyau.
 
+  4. platform: Le système FFI ("foreign function interface", interface pour les fonctions externes) 
+     est implémenté et les interfaces de méthodes Ruby vers les 
+     Ruby method interfaces to platform-specific functions are created.  Once
+     this is set up, platform specific things such as pointers, file access,
+     math, and POSIX commands are attached.
+
+
   4. platform: The FFI (foreign function interface) system is implemented and
      Ruby method interfaces to platform-specific functions are created.  Once
      this is set up, platform specific things such as pointers, file access,
      math, and POSIX commands are attached.
+
 
   5. common: The vast majority of the Ruby core library classes are
      implemented. The Ruby core classes are kept as implementation-neutral as
