@@ -38,27 +38,16 @@ l'executable *ne* fonctionnera *plus*, et cela *même si vous n'avez pas déplac
 L'executable teste un unique chemin codé en dur au moment du build.
 Si par la suite cela se révèle trop hadicapant, nous modifieront ce comportement.
 
-
-This has consequences, of course. If you build a development executable and then
-rename your source directory, you will need to rebuild. Likewise, if you build an
-install executable and rename the install directory, the executable will *not*
-function, *even if the executable is in the directory*. The executable checks a
-single, hard-coded path. If this ends up being very painful for some reason,
-we'll revise it.
-
-
-## Installing Rubinius
+## Installer Rubinius
 
 Avant d'installer rubinius vous devez préciser dans quel dossier l'installer.
 
     ./configure --prefix=/path/to/install/dir
 
 Le processus de configuration crée un fichier 'config.rb' qui spécifie les chemins 
-importants utilisés par Rubinius.
-  
-The configure process creates a 'config.rb' file that specifies the key file
-paths that Rubinius uses. Once configured, run 'rake install' to build and
-install. The install procedure builds all the files, including compiling the
-Ruby standard library files in the lib/ directory, then copies them into the
-install location using the 'install' program. The install tasks are located in
-rakelib/install.rake.
+importants utilisés par Rubinius. Une fois configuré, executez 'rake install'
+pour construire (build) et installer Rubinius.
+la procédure d'installation fait un build de tous les fichiers 
+y compris ceux de la librairie standard de Ruby, situés dans le dossier lib/,
+et les copies ensuite dans le répertoire d'installation en utilisant le programme 'install'.
+Les tâches d'installation (install tasks) sont situés dans le dossier rakelib/install.rake.
