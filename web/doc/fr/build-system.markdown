@@ -1,37 +1,43 @@
 ---
-layout: doc_en
-title: Build System
-previous: Specs - Compiler
+layout: doc_fr
+title: Construction (Build System)
+previous: Specs - Compilateur
 previous_url: specs/compiler
-next: Bootstrapping
+next: Bootstrap
 next_url: bootstrapping
 review: true
 ---
 
 TODO: Many details are missing.
 
-Rubinius uniformly uses Rake as the build system for its own files. However
-Rubinius also includes the source for several external libraries and these
-typically use makefiles.
+Rubinius utilise abondamment Rake comme systeme de construction (build system) de ses propres fichiers.
+Cependant rubinius utilise également plusieurs librairies externes et donc utilise des fichiers makefile.  
 
 
-## Development versus Install Builds
+## Build de developpement et build d'installation
 
-Rubinius consists of the executable, and various support files like the core
-and standard libraries. The executable needs to know where to find these files
-even if moved to a different location. To handle this problem, Rubinius
-distinguishes two build types: development and install. The executable stores
-the full path to its base directory, relative to which it expects to find the
-files it needs.
+Rubinius consiste dans son executable et son support de fichiers variés tel que 
+les librairies "core" et "standard". L'executable a besoin de savoir où trouver les fichiers
+même s'ils sont déplacés [lors de l'installation]. Pour résoudre ce problème,
+Rubinius distingue deux types de "build" : developpement et installation (development and install).
+L'executable conserve le chemin complet de son dossier de base, à partir duquel il s'attend
+à trouver les fichiers dont il a besoin.
 
-The development executable stores the path to the source directory in which it
-was built. You can then move the executable to a different location but as you
-make changes to the core library files in the kernel/\*\* directories, the
-executable will continue to use those files.
+L'executable de developpement conserve le chemin du dossier source dans lequel 
+il a été construit ("buildé"). Vous pouvez ensuite déplacé l'executable. Tant que vous
+modifiez les fichiers dans le dossier kernel, ces changements seront visibles, 
+car l'executable continuera d'utiliser ces fichiers.
 
-The install executable stores the path to the install directory. Again, even if
-the executable is moved to a new location, it will continue to find the
-installed files.
+L'executable d'installation (install executable) conserve le chemin du dossier d'installation.
+Si l'executable est déplacer il saura où trouver malgré tout les fichiers installés.
+
+Evidemment, cela a des conséquenses. Si vous construsiez un executable de developpement et
+qu'ensuite vous renommez votre dossier source, vous devrez refaire votre build. De même
+si vous construisez un executable d'installation et que vous renommez le répertoire, 
+l'executable *ne* fonctionnera *plus*, et cela *même si vous n'avez pas déplacé l'executable*.
+L'executable teste un unique chemin codé en dur au moment du build.
+Si par la suite cela se révèle trop hadicapant, nous modifieront ce comportement.
+
 
 This has consequences, of course. If you build a development executable and then
 rename your source directory, you will need to rebuild. Likewise, if you build an
@@ -43,10 +49,13 @@ we'll revise it.
 
 ## Installing Rubinius
 
-To install Rubinius, you must first configure it with an install prefix:
+Avant d'installer rubinius vous devez préciser dans quel dossier l'installer.
 
     ./configure --prefix=/path/to/install/dir
 
+Le processus de configuration crée un fichier 'config.rb' qui spécifie les chemins 
+importants utilisés par Rubinius.
+  
 The configure process creates a 'config.rb' file that specifies the key file
 paths that Rubinius uses. Once configured, run 'rake install' to build and
 install. The install procedure builds all the files, including compiling the
