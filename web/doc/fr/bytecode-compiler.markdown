@@ -25,12 +25,12 @@ sont illustrées ci-dessous.
   <img src="/images/compilation_process.png" alt="Compilation process" />
 </div>
 
-1. [Etape d'analyse grammaticale (Parser)](/doc/en/bytecode-compiler/parser/)
-1. [AST](/doc/en/bytecode-compiler/ast/)
-1. [Etape de génération](/doc/en/bytecode-compiler/generator/)
-1. [Etaper d'encodage](/doc/en/bytecode-compiler/encoder/)
-1. [Etape de paquetage](/doc/en/bytecode-compiler/packager/)
-1. [Etape d'écriture](/doc/en/bytecode-compiler/writer/)
+1. [Etape d'analyse grammaticale (Parser)](/doc/fr/bytecode-compiler/parser/)
+1. [AST](/doc/fr/bytecode-compiler/ast/)
+1. [Etape de génération](/doc/fr/bytecode-compiler/generator/)
+1. [Etaper d'encodage](/doc/fr/bytecode-compiler/encoder/)
+1. [Etape de paquetage](/doc/fr/bytecode-compiler/packager/)
+1. [Etape d'écriture](/doc/fr/bytecode-compiler/writer/)
 1. Printers
-1. [Transformations](/doc/en/bytecode-compiler/transformations/)
-1. [Personnalisation du Pipeline](/doc/en/bytecode-compiler/customization/)
+1. [Transformations](/doc/fr/bytecode-compiler/transformations/)
+1. [Personnalisation du Pipeline](/doc/fr/bytecode-compiler/customization/)

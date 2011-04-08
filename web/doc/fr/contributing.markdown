@@ -46,7 +46,7 @@ sont ceux qui inclus une RubySpecs qui révèle le bug, et le patch qui le corri
      
 
   2. Trouver des comportement non spécifiés. Voir [Comment écrire des specs Ruby]
-     (/doc/en/how-to/write-a-ruby-spec).
+     (/doc/fr/how-to/write-a-ruby-spec).
 
 ## Corriger des specs qui échouent.
 

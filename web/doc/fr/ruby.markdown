@@ -46,12 +46,12 @@ Les éléments Ruby suivants sont discuté à travers la manière dont Rubinius
 les comprend et les implémente, et la façon dont le concept de portée est impliqué dans
 chacun.
 
-1. [Scripts](/doc/en/ruby/scripts/)
-1. [Methodes](/doc/en/ruby/methods/)
-1. [Constantes](/doc/en/ruby/constants/)
-1. [Classes & Modules](/doc/en/ruby/classes-and-modules/)
-1. [Blocks & Procs](/doc/en/ruby/blocks-and-procs/)
-1. [Variables Locales](/doc/en/ruby/local-variables/)
-1. [Variables d'Instance](/doc/en/ruby/instance-variables/)
-1. [Variables de Class](/doc/en/ruby/class-variables/)
-1. [Variables Globales](/doc/en/ruby/global-variables/)
+1. [Scripts](/doc/fr/ruby/scripts/)
+1. [Methodes](/doc/fr/ruby/methods/)
+1. [Constantes](/doc/fr/ruby/constants/)
+1. [Classes & Modules](/doc/fr/ruby/classes-and-modules/)
+1. [Blocks & Procs](/doc/fr/ruby/blocks-and-procs/)
+1. [Variables Locales](/doc/fr/ruby/local-variables/)
+1. [Variables d'Instance](/doc/fr/ruby/instance-variables/)
+1. [Variables de Class](/doc/fr/ruby/class-variables/)
+1. [Variables Globales](/doc/fr/ruby/global-variables/)

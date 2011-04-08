@@ -1,15 +1,15 @@
 ---
-layout: doc_en
-title: Rubinius Systems
-previous: Garbage Collector - Large Objects
+layout: doc_fr
+title: Les systèmes de Rubinius
+previous: Collecte mémoire, les objets volumineux
 previous_url: garbage-collector/large-objects
-next: Primitives
+next: Les Primitives
 next_url: systems/primitives
 review: true
 ---
 
-1. [Primitives](/doc/en/systems/primitives/)
-1. [FFI](/doc/en/systems/ffi/)
-1. [Concurrency](/doc/en/systems/concurrency/)
-1. [IO](/doc/en/systems/io/)
-1. [C-API](/doc/en/systems/c-api/)
+1. [Les Primitives](/doc/fr/systems/primitives/)
+1. [FFI](/doc/fr/systems/ffi/)
+1. [Concurrence](/doc/fr/systems/concurrency/)
+1. [Entrée/Sortie (IO)](/doc/fr/systems/io/)
+1. [l'API C](/doc/fr/systems/c-api/)

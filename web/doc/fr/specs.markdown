@@ -1,38 +1,40 @@
 ---
-layout: doc_en
+layout: doc_fr
 title: Specs
-previous: Ruby - Global Variables
+previous: Ruby - Les variables globales
 previous_url: ruby/global-variables
 next: RubySpec
 next_url: specs/rubyspec
 ---
 
-The Rubinius project generally uses TDD/BDD-style executable specifications to
-drive development. The Rubinius 'spec' directory is conceptually divided into
-two parts:
+Le projet Rubinius suit en général le type de spécifications logicielles TDD-BDD 
+(develeoppement conduit par test, developpement conduit par le comportement) 
+pour conduire les développement. Le dossier spec de Rubinius est conceptuellement
+divisé en deux parties. 
 
-  1. All the files under './spec/ruby' that describe the behavior of MatzRuby.
-  2. And all the other files under the './spec' directory that describe the
-     behavior of Rubinius.
+  1. Tous les fichiers dans './spec/ruby' décrivent le comportement de 'MatzRuby'
+  2. Tous les fichiers dans './spec' décrivent le comportement de Rubinius. 
+  
 
-The specs at ./spec/ruby are a copy of RubySpec at a particular revision.
-These are regularly imported from the RubySpec project and failing specs are
-tagged so that the CI process always runs a known good set of specs. This
-enables easily confirming that changes to Rubinius code do not cause
-regressions.
+Les specs présentes dans ./spec/ruby sont une copie des RubySpec à une révision donnée.
+Elles sont régulièrement importées depuis le projet RubySpec. Les specs qui échouent
+sont taggées et ainsi le processus de CI execute en permanence un large ensemble de specs.
+Ceci permet de s'assurer en partie que des changements du code de Rubinius 
+ne provoquera pas de régressions.
 
-Documentation about the organization of specs and guidelines for writing specs
-can be found at the [RubySpec project](http://rubyspec.org/).
+La documentation à propos de l'organisation des specs et des conventions pour 
+écrire des specs peuvent être trouvées ici: [RubySpec project](http://rubyspec.org/).
 
-Use the following workflow when adding specs and code to Rubinius:
+Utilisez le workflow suivant lorsque vous ajoutez des specs et du code à Rubinius.
 
-  1. Write failing specs for some aspect of Ruby behavior. Commit the specs in
-     a separate commit to the appropriate files under ./spec/ruby.
-  2. Add Rubinius code to make the specs pass. Again, commit these changes in
-     a separate commit from the spec changes.
-  3. Run the `rake` command to ensure that all the CI specs pass.
+  1. Ecrivez des specs qui définissent un aspect du comportement de Ruby.
+     Commitez les specs (dans un commit à part) dans le dossier aproprié dans ./spec/ruby
+  2. Ecrivez le code qui permette de passer les specs. Une fois encore,
+     commitez les modification séparément du commit des specs.  
+  3. Executez la commande `rake` pour s'assurer que toutes les specs du CI passent.
 
-The changes to files in ./spec/ruby are regularly pushed to the RubySpec
-project. Also, current changes to RubySpec from committers to other Ruby
-implementations are regularly updated in the ./spec/ruby directories. When the
-specs are updated from RubySpec, the CI tags are also updated.
+Les modifications des fichiers de ./spec/ruby sont régulièrement pushé dans le projet
+RubySpec. Aussi, les modification courantes apportés à RubySpec de la part des committers
+d'autres implémentations de Ruby sont régulièrement mis à jour, dans le dossier
+./spec/ruby. Lorsque les specs sont mis à jour depuis RubySpec, le tag CI est 
+également mis à jour.
