@@ -55,63 +55,59 @@ avant que du code Ruby puissent être executé. Le bootstrap comporte sept étap
      plupart des classes du noyau.
 
   4. platform: Le système FFI ("foreign function interface", interface pour les fonctions externes) 
-     est implémenté et les interfaces de méthodes Ruby vers les 
-     Ruby method interfaces to platform-specific functions are created.  Once
-     this is set up, platform specific things such as pointers, file access,
-     math, and POSIX commands are attached.
+     est implémenté et les interfaces de méthodes Ruby vers les fonctions dépendantes de la plateforme
+     (le système d'exploitation) sont créées. Une fois ceci fait, on attache les spécificités
+     liées à la plateforme, tel que les pointers, l'accès au fichiers, les librairies de calcul
+     mathématiques, les commandes POSIX.
+
+  5. common: La quasi totalité des classes faisant parties du coeur de Ruby sont implémentées. 
+     On tente de conserver une implémentation la plus neutre possible de ces classes.
+     Par ailleurs, la plupart des fonctionnalités des classes spécifiques à Rubinius sont ajoutées.
+     
+     
+  6. delta: Les versions finales des méthodes telle que #attr_reader, etc. sont ajoutées. 
+     Aussi, les implémentations spécfiques de ces méthodes - qui surchargent l'implémentation
+     de base, sont ajoutées.
+     
+  7. loader: La version compilée de kernel/loader.rb est executé.
+
+     La dernière étape règle les cycles de vie d'un processus Ruby. On commence par 
+     connecter la machine virtuelle au système, configurer le load path 
+     (chemin où sont cherché les fichiers ruby), et lire les scripts de personnalisation à la
+     racine du dossier personnel de l'utilisateur (home directory). On capture les signaux systemes,
+     et on traite les arguments fourni sur la ligne de command.
+
+     Après ça, on execute le script passé sur la ligne de commande
+     ou on charge le mode interactif ruby (ruby shell).
+     Lorsque ceci se termine, on execute les blocks "at_exit" qui ont été enregistrés, 
+     On "finalize" tous les objets, et enfin on quitte le processus.
 
 
-  4. platform: The FFI (foreign function interface) system is implemented and
-     Ruby method interfaces to platform-specific functions are created.  Once
-     this is set up, platform specific things such as pointers, file access,
-     math, and POSIX commands are attached.
+## Ordre de chargement (load order)
 
+Les fichiers présent dans les répertoires bootstrap, platform, common et delta,
+dans le dossier kernel, implémentent respectivement les étapes du bootstrap ci dessus.
+L'ordre de chargement à l'intérieur de chaque dossier est spécifié dans runtime/index.
 
-  5. common: The vast majority of the Ruby core library classes are
-     implemented. The Ruby core classes are kept as implementation-neutral as
-     possible. Also, most of the functionality for Rubinius specific classes
-     is added.
-
-  6. delta: Final versions of methods like #attr_reader, etc. are added. Also,
-     implementation-specific versions of methods that override the versions
-     provided in common are added.
-
-  7. loader: The compiled version of kernel/loader.rb is run.
-
-     The final stage sets up the life cycle of a ruby process. It starts by
-     connecting the VM to the system, sets up load paths, and reads
-     customization scripts from the home directory. It traps signals, and
-     processes command line arguments.
-
-     After that, it either runs the script passed to it from the command line
-     or boots up the interactive ruby shell. When that finishes, it runs any
-     at_exit blocks that had been registered, finalizes all objects, and
-     exits.
-
-## Load Order
-
-The files in the kernel directories bootstrap, platform, common, and delta,
-implement the respective bootstrapping stages above. The order in
-which these directories are loaded is specified in runtime/index.
-
-When an rbc file is loaded, code at the script level and in class or module
-bodies is executed. For instance, when loading
+Quant un fichier rbc est chargé, le code du script, et le code des classes et modules
+est executé ([NdT] En ruby on défini une classe ou un module en executant du code). Par exemple,
+si l'on charge : 
 
     class SomeClass
       attr_accessor :value
     end
 
-the call to #attr_accessor will be run. This requires that any code called in
-script, class, or module bodies be loaded before the file that calls the code.
-The kernel/alpha.rb defines most of the code that will be needed at the script
-or module level. However, other load order dependencies exist between some of
-the platform, common, delta, and compiler files.
+l'appel à #attr_accessor sera executé. Ceci nécessite que n'importe quel appel au niveau du script
+ou du corps d'une classe ou d'un module, soit défini avant le chargement du fichier. Le fichier
+kernel/alpha.rb contient presque tous le code nécessaire pour executer un script ou définir une classe
+ou un module. Cependant d'autres dépendances - lié au chargement (load order dependencies), 
+existent entre les étapes platform, common, delta, et les fichiers du compilateur.  
 
-These load order dependencies are addressed by the load_order.txt file located
-in each of the kernel/\*\* directories. If you modify code that adds a load
-order dependency, you must edit the load_order.txt files to place the depended
-on file above the file that depends on it. Also, if you add a new file to one
-of the kernel directories, you must add the file name to the load_order.txt
-file in that directory. These files are copied to the appropriate runtime/\*\*
-directories during build. During each of the bootstrap stages above, the VM
-loads the files listed in load_order.txt in order.
+Ces dépendances sont répertoriés dans un fichier load_order.txt présent dans chaque répertoire
+du dossier kernel. Si vous modifiez du code qui ajoute une dépendance au chargement, vous devez
+éditer le fichier load_order.txt et placer le nom du fichier au-dessus de celui qui en dépend.
+Par ailleurs, si vous ajouter un nouveau fichier à l'un des répertoires du dossier kernel,
+vous devez ajouter son nom au load_order.txt du répertoire.
+Ces fichiers sont copiés dans le répertoire aproprié du dossier runtime pendant la phase de build. 
+A chacune des étapes décrites précedemment, la machine virtuelle charge les fichiers lister dans 
+load_order.txt dans l'ordre de leur apparation.
