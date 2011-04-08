@@ -1,87 +1,86 @@
 ---
-layout: doc_en
-title: Contributing
-previous: Troubleshooting
+layout: doc_fr
+title: Contribuer
+previous: Résolution des problèmes
 previous_url: getting-started/troubleshooting
 next: Communication
 next_url: contributing/communication
 ---
 
-The Rubinius project welcomes your contributions. There are many things to do
-to help out. Most importantly, you should do something that interests you.
-That is the best way to have enthusiasm and energy for your work.
+Le projet Rubinius reçoit avec plaisir vos contributions. Il y a beaucoup de choses
+à faire pour venir en aide au projet. Si vous souhaitez contribuer, 
+choisissez quelque chose qui vous intéresse. C'est le meilleur moyen pour préserver
+son enthousiasm et son energy.
 
-If you have questions about Rubinius, the best way to get answers is to chat
-with us in the #rubinius IRC channel on irc.freenode.net.
+Si vous avez des questions à propos de Rubinius, la meilleurs façon d'obtenir des
+réponses est de discuter en ligne sur le channel IRC irc.freenode.net #rubinius.
 
-Below are several ideas for things to do on Rubinius.
+Voici plusieurs idées de contributions à Runbinius.
 
+## Executer du code réel
 
-## Run Your Code
+Votre code est souvent plus exigeant que des specs. Executez vos projets personnels
+sous Rubinius et faites part des problèmes rencontrés. 
+[Comment écrire un Ticket](/doc/en/how-to/write-a-ticket).
 
-Your code is often more vicious than the specs. Run your pet project under
-Rubinius and report issues. See [How To Write a Ticket](/doc/en/how-to/write-a-ticket).
+## Demandez de l'aide
 
+Nous ferons ce qui est en notre pouvoir pour vous aider. N'hésitez pas à chercher 
+par vous même aussi. Rubinius essaie d'être un projet facile à étudier, 
+à apprendre, et à étendre.
 
-## Ask For Help
+Nous apprécirons tous bug rapporté, mais nous ne pouvons prioriser que les 
+tickets que nous pouvons reproduire facilement. Les tickets les plus appréciés
+sont ceux qui inclus une RubySpecs qui révèle le bug, et le patch qui le corrige.
 
-Anything that we can do to help, we will. Make sure to do your own research
-too, if possible. Rubinius attempts to be a project that you can easily study,
-learn from, and hopefully extend.
+## Ecrire des specs
 
-We will certainly accept and appreciate simple bug reports, but we can give
-priority to tickets that include simple steps to reproduce the issue. Even
-better are tickets that include RubySpecs that demonstrate the bug and a patch
-that fixes it.
+  1. Executez `bin/mspec tag --list incomplete <dir>` pour voir les specs 
+     qui ont été marquées comme incomplètes. Ces specs ont peut-être simplement
+     besoin d'être relues, ou peuvent être des specs manquantes pour certaines classes.
 
+     NOTE: Vous pouvez spécifier un pseudo répertoire ':files' à la place \<dir\>, ce qui
+     montrera les tags pour toutes les specs qui devraient être executées sur Rubinius.
+     Ou vous pouvez spécifier un sous répertoire du dossier 'spec' pour lister les tags 
+     des specs de cette sous-catégorie.
+     
 
-## Write Specs
+  2. Trouver des comportement non spécifiés. Voir [Comment écrire des specs Ruby]
+     (/doc/en/how-to/write-a-ruby-spec).
 
-  1. Run `bin/mspec tag --list incomplete <dir>` to show specs that have been
-     tagged as incomplete. These specs may simply need review, or there could
-     be specs missing for a particular class.
+## Corriger des specs qui échouent.
 
-     NOTE: You can specify the pseudo-directory ':files' for \<dir\>, which will
-     show tags for all the specs that should run on Rubinius. Or you can
-     specify any subdirectory of the spec/ directory to list tags for specs in
-     that subdirectory.
+  1. Executez `bin/mspec tag --list fails <dir>` pour voir les specs en échec.
 
-  2. Find unspecified behaviors. See [How To Write a Ruby
-     Spec](/doc/en/how-to/write-a-ruby-spec).
-
-
-## Fix Failing Specs
-
-  1. Run `bin/mspec tag --list fails <dir>` to show specs tagged as failing.
-
-     NOTE: You can specify the pseudo-directory ':files' for \<dir\>, which will
-     show tags for all the specs that should run on Rubinius. Or you can
-     specify any subdirectory of the spec/ directory to list tags for specs in
-     that subdirectory.
-
-  2. Pick a spec that looks interesting and see if you can write a patch that
-     will make it pass.
+	 NOTE: Vous pouvez spécifier un pseudo répertoire ':files' à la place \<dir\>, ce qui
+     montrera les tags pour toutes les specs qui devraient être executées sur Rubinius.
+     Ou vous pouvez spécifier un sous répertoire du dossier 'spec' pour lister les tags 
+     des specs de cette sous-catégorie.
+     
+  2. Choisir une spec qui a l'air intéressante et faire en sorte qu'elle réussisse.
 
 
-## Write Docs
+## Ecrire de la documentation
 
-Study how Rubinius works and write highlevel documentation that will help
-others learn about the implementation details.
+Etudier comment Rubinius fonctionne et écrire de la documentation de haut niveau
+aidera les autres à comprendre des détails de l'implémentation.
 
 
-## Cleanup Code
+## Nettoyer du code
 
-Search for tags like TODO, HACK, FIXME in the code and submit patches to fix
-them. Here's a command to search the code:
+Cherche les tag TODO, HACK, FIXME dans le code et soumettez des patches
+qui résolvent le code marqué. Voici une commande utile pour trouver ces tags
 
     `grep -re "@todo\|TODO\|HACK\|FIXME" .`
 
-Review the [Style Guide](/doc/en/contributing/style-guide/) for
-coding guidelines.
+Relisez le [Style Guide](/doc/en/contributing/style-guide/) pour respecter les
+conventions de codage.
 
 
-## Triage Tickets
+## Trier les tickets
 
-  * Revive or close old tickets.
-  * Build minimal test cases that reproduce the bugs. Then see if there are
-    already RubySpecs for the issue. If not, consider writing some.
+  * Rouvrir ou fermé les vieux tickets
+  * Construire les cas d'utilisation minimum pour reproduire le bug. Et voir ensuite
+    si il y a déjà une RubySpecs pour ce problème. S'il n'y en a pas, essayez d'en
+    écrire une.
+  
