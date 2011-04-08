@@ -1,19 +1,19 @@
 ---
-layout: doc_en
-title: Getting Started
-previous: What is Rubinius?
+layout: doc_fr
+title: Pour commencer
+previous: Qu'est-ce que Rubinius ?
 previous_url: what-is-rubinius
-next: Requirements
+next: Pré-requis
 next_url: getting-started/requirements
 ---
 
-This guide will help you get Rubinius running. It assumes you know something
-about Ruby and about installing software on your system.
+Ce guide vous aidera à faire fonctionner Rubinius. Il présume que vous 
+connaissez déjà Ruby et que vous savez installez des logiciels sur votre système.
 
-If you have trouble following the directions here, visit the #rubinius IRC
-channel on irc.freenode.net for help.
+Si vous continuez à rencontrer des difficultés malgré ce guide, faites un tour
+sur l'IRC irc.freenode.net, channel #rubinius.
 
-1. [Requirements](/doc/en/getting-started/requirements/)
-1. [Building](/doc/en/getting-started/building/)
-1. [Running Rubinius](/doc/en/getting-started/running-rubinius/)
-1. [Troubleshooting](/doc/en/getting-started/troubleshooting/)
+1. [Pré-requis](/doc/en/getting-started/requirements/)
+1. [Construction (Build)](/doc/en/getting-started/building/)
+1. [Executer Rubinius](/doc/en/getting-started/running-rubinius/)
+1. [Résolution des problèmes](/doc/en/getting-started/troubleshooting/)

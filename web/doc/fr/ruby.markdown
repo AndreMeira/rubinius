@@ -1,5 +1,5 @@
 ---
-layout: doc_en
+layout: doc_fr
 title: Ruby
 previous: Style Guide
 previous_url: contributing/style-guide
@@ -8,18 +8,17 @@ next_url: ruby/scripts
 review: true
 ---
 
-One perspective to approach understanding how Rubinius implements Ruby begins
-with understanding how various concepts in Ruby work. The purpose of this
-topic is to introduce Rubinius features by way of Ruby concepts that should
-already be familiar. The Rubinius documentation generally assumes that you are
-either familiar with Ruby or familiar with virtual machine and compiler
-concepts.
+Comprendre comment rubinius implémente ruby suppose que l'on comprenne
+la façon dont ruby fonctionne et les concepts qu'il propose. Le but de ce 
+sujet est de vous introduire aux features Rubinius à travers des concepts de Ruby -
+qui devraient déjà vous être familier. La documentation de Rubinius suppose que
+vous n'êtes pas étranger à Ruby, et aux concepts relatifs aux machines virtuelles
+et à la compilation.
 
-Central to each of the topics below is the concept of _scope_. In Ruby syntax,
-scope is generally a derived concept. In other words, there are not syntax
-elements whose primary responsibility it is to delimit or reference scope. For
-this reason, it can be confusing to talk about scope. An example of this is a
-normal method definition:
+Le concept de _portée_ (scope) est au centre de tous les topics suivants. Dans la syntaxe Ruby,
+la scope est généralement un concept dérivé. Ou pour dire autrement, il n'y a pas
+de marqueur syntaxique qui délimite une portée. Cela peut parfois prêter à confusion.
+Un exemple de cette possible confusion est donné dans l'exemple suivant :
 
     a = 5
 
@@ -27,32 +26,32 @@ normal method definition:
       puts a * 2
     end
 
-Here, the `#diligent` method gives us a name with which to refer to the
-computation `puts a * 2`. But the method also defines a closed lexical scope
-for the variable `a`. The scope is closed because the `a = 5` above the method
-definition has no relation to the variable `a` in `#diligent`.
+Ici, la méthode `#diligent` nous donne un nom auquel se référer pour l'opération
+`puts a * 2`. Mais la méthode définit également une portée lexicale pour la variable a.
+La portée est fermée car la ligne `a = 5` au dessus n'exerce aucune influence. La variable
+'a' de cette ligne et celle de la méthode sont complétement distinctes.
 
-Often it is asserted that everything in Ruby is an object. This is not quite
-true. _Most_ things in Ruby are objects, but some things that are absolutely
-essential for running Ruby code are not necessarily objects that you can put
-your hands on. Instead, which of these "execution environment" things are
-objects in Ruby depends heavily on the implementation. Scope is one of these
-things.
+Souvent, il est dit que tout en Ruby est objet. Ce n'est pas tout à fait vrai.
+Presque tout en Ruby est objet, mais certaines choses, essentielles
+pour le fonctionnement de Ruby, ne sont pas nécessairement des objets que vous 
+pouvez toucher du doigt. Des choses comme l'environnement d'execution sont 
+des objets qui dépendent très largement de l'implémentation. La portée est 
+également l'une de ces choses.
 
-Essentially, _scope_ as a concept is a context for answering questions such
-as: What is the value of `self` here? What local variables exist here? What
-value will the constant `APPLE` have at this point in the code?
+La portée est un concept qui permet de répondre au question telle que :
+"Quelle est la valeur de 'self' ici ? Quelles sont les variables locales existantes ?
+Quelle sera la valeur de la constante `APPLE` à cet endroit du code ?"
 
-Each of the following elements of Ruby are discussed from the perspective of
-understanding how Rubinius implements them and how the concept of _scope_ is
-involved in each one.
+Les éléments Ruby suivants sont discuté à travers la manière dont Rubinius 
+les comprend et les implémente, et la façon dont le concept de portée est impliqué dans
+chacun.
 
 1. [Scripts](/doc/en/ruby/scripts/)
-1. [Methods](/doc/en/ruby/methods/)
-1. [Constants](/doc/en/ruby/constants/)
+1. [Methodes](/doc/en/ruby/methods/)
+1. [Constantes](/doc/en/ruby/constants/)
 1. [Classes & Modules](/doc/en/ruby/classes-and-modules/)
 1. [Blocks & Procs](/doc/en/ruby/blocks-and-procs/)
-1. [Local Variables](/doc/en/ruby/local-variables/)
-1. [Instance Variables](/doc/en/ruby/instance-variables/)
-1. [Class Variables](/doc/en/ruby/class-variables/)
-1. [Global Variables](/doc/en/ruby/global-variables/)
+1. [Variables Locales](/doc/en/ruby/local-variables/)
+1. [Variables d'Instance](/doc/en/ruby/instance-variables/)
+1. [Variables de Class](/doc/en/ruby/class-variables/)
+1. [Variables Globales](/doc/en/ruby/global-variables/)

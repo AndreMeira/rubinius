@@ -1,7 +1,7 @@
 ---
-layout: doc_en
-title: Garbage Collector
-previous: JIT Compiler
+layout: doc_fr
+title: Nettoyage et collecte Mémoire (Garbage Collector)
+previous: Compilateur JIT (JIT Compiler)
 previous_url: jit
 next: Nursery
 next_url: garbage-collector/nursery

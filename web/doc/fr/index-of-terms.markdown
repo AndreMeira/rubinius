@@ -1,7 +1,7 @@
 ---
-layout: doc_en
-title: Index of Terms
-previous: Appendix B - Reading List
+layout: doc_fr
+title: Index de la Terminologie
+previous: Appendix B - Liste de lecture
 previous_url: appendix-b-reading-list
 review: true
 ---
