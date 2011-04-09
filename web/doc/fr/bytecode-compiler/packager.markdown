@@ -1,69 +1,70 @@
 ---
-layout: doc_en
-title: Packager Stage
-previous: Encoder Stage
+layout: doc_fr
+title: L'étape de l'empaquetage
+previous: L'étape de l'encodage
 previous_url: bytecode-compiler/encoder
-next: Writer Stage
+next: L'étape d'écriture
 next_url: bytecode-compiler/writer
 ---
 
-Once the Generator has been properly encoded in the Encoder stage,
-Rubinius packages the bytecode up as a CompiledMethod by creating a new
-CompiledMethod and setting a number of properties on it.
+Une fois que le générateur a été proprement encodé à l'étape d'encodage,
+Rubinius empaquette (package) le bytecode comme une "CompiledMethod" 
+(méthode compilée) en créant une nouvelle CompiledMethod 
+et en configurant un certain nombre de ses propriétés.
 
-These properties are available on any CompiledMethod. You can retrieve
-the CompiledMethod from a Ruby Method object by calling `executable` on
-it.
+Ces propriétés sont disponibles sur n'importe quelle CompiledMethod.
+Vous pouvez récupérer la CompiledMethod d'une méthode d'un objet Ruby
+en appelant sa méthode `executable` (NdT les méthodes sont aussi des objets). 
 
-* *iseq*: a Tuple containing the raw instruction sequence
-* *literals*: a Tuple contaning the literals used in the method.
-  Literals are used internally by Rubinius for values like Strings, and
-  are used by the `push_literal` and `set_literal` instructions.
-* *lines*: an Array containing the first instruction pointer for each
-  line represented by the bytecode
-* *required_args*: the number of arguments required by the method
-* *total_args*: the total number of arguments, including optional
-  arguments but not `*args`
-* *splat*: the position of the splat argument, if any
-* *local_count*: the number of local variables, including parameters
-* *local_names*: a Tuple containing a list of all of the local variable
-  names. The first names will be the required, optional, splat and block
-  arguments, in that order.
-* *file*: the name of the file that will be used in stack traces and
-  other debugging information
-* *name*: the name of the method
-* *primitive*: the name of the primitive associated with this method, if
-  any
-* metadata: it is possible to store additional structured metadata on a
-  compiled method. The compiled method has a piece of metadata named
-  `for_block` with the value `true` if the original generator was
-  created for a block.
+* *iseq*: un Tuple qui contient la séquense brute des instructions
+* *literals*: un Tuple qui contient les littéraux utilisés par la méthode.
+  Les littéraux sont utilisés de manière interne par Rubinius pour les 
+  valeurs comme les chaînes de caractères, et sont utilisés par les 
+  instructions `push_literal` et `set_literal`.
+* *lines*: un Tableau (Array) qui contient le pointeur sur la première instruction
+   du bytecode pour chaque ligne de code.
+* *required_args*: le nombre d'arguments requis par la méthode
+* *total_args*: le nombre total d'arguments, y compris les arguments facultatifs
+  mais d'argument "splat" (syntaxiquement écrit `*args`)
+* *splat*: la position d'un argument "splat", s'il y en a
+* *local_count*: le nombre de variables locales, dont les paramètres
+* *local_names*: un Tuple qui contient la liste des noms de toutes les variables locales
+  Les premiers noms seront les arguments requis, optionels, splat et block 
+  dans cet ordre.
+* *file*: le nom du fichier qui sera utilisé dans les informations de déboggage.
+* *name*: le nom de la méthode.
+* *primitive*: le nom de la primitive associée à cette méthode
+* metadata: il est possible de conserver des structures additionnelles 
+  qui contiennent des métadonnées (metadata) sur la méthode compilée. 
+  La méthode compilée possède une métadonnée nommée `for_block`
+  qui vaut `true` si le générateur original a été créé pour un "block".
+  
+L'étape d'empaquetage (Packager stage) s'assure également que tous 
+les enfants générateurs (comme les générateurs pour les block et méthodes)
+sont convertis en méthodes compilées. Ces méthodes compilés "enfants" 
+sont inclus dans le tuple des litéraux de la méthode compilée parente.
 
-The Packager stage also makes sure that any child generators (such as
-generators for blocks or methods) are also converted into compiled
-methods. These child compiled methods are included in the literals tuple
-of the parent compiled method.
+Une fois que le générateur a finis de s'empaqueter dans une CompiledMethod,
+il invoque l'étape d'écriture, en passant la CompiledMethod en entrée.
 
-Once the Generator has finished packaging itself as a CompiledMethod, it
-invokes the Writer stage, passing in the CompiledMethod as its input.
+## Fichiers référencés
 
-## Files Referenced
+* *kernel/bootstrap/compiled_method.rb*: L'implémentation basique de 
+   CompiledMethod, principalement composée de branchement vers les 
+   primitives.
+* *kernel/common/compiled_method.rb*: une implémentation plus robuste
+   de CompiledMethod, une combinaison de primitives et de méthodes
+   écrites en Ruby.
+* *vm/builtin/compiledmethod.cpp*: l'implémentation en C++ 
+  des primitives CompiledMethod.
+* *lib/compiler/generator.rb*: L'implémentation de la méthode 
+  `package`, qui remplit la CompiledMethod avec les informations
+  de l'objet générateur.
 
-* *kernel/bootstrap/compiled_method.rb*: the basic implementation of
-  CompiledMethod, mostly composed of wiring up primitives
-* *kernel/common/compiled_method.rb*: a more robust implementation of
-  CompiledMethod, a combination of primitive methods and methods written
-  in Ruby
-* *vm/builtin/compiledmethod.cpp*: the C++ implementation of the
-  CompiledMethod primitives
-* *lib/compiler/generator.rb*: The implementation of the `package`
-  method, which populates the CompiledMethod with information from the
-  Generator object.
+## Personnalisatin
 
-## Customization
-
-In general, the `package` method is designed to populate the
-CompiledMethod with a group of variables. However, you could also use
-the packager to populate another object with the same interface.
-However, it would not necessarily be useful on its own, without
-additional customizations later on
+En général, la méthode `package` est conçu pour remplir la
+CompiledMethod avec un group de variables. Cependant, vous
+pouvez aussi utiliser le "packager" pour remplir un autre objet
+avec la même interface. Mais, cela ne sera pas forcément très
+utile en soi, sans d'autres personnalisations ultérieures.

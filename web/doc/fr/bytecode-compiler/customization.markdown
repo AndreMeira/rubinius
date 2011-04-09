@@ -1,9 +1,9 @@
 ---
 layout: doc_en
-title: Customizing the Compiler Pipeline
-previous: Generator
+title: Personnaliser le Pipeline du compilateur
+previous: Generateur
 previous_url: bytecode-compiler/generator
-next: JIT Compiler
+next: Compilateur JIT
 next_url: jit
 review: true
 ---

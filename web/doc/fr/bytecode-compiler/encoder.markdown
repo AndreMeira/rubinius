@@ -1,39 +1,38 @@
 ---
-layout: doc_en
-title: Encoder Stage
-previous: Generator Stage
+layout: doc_fr
+title: Etape d'encodage
+previous: Etape de génération
 previous_url: bytecode-compiler/generator
-next: Packager Stage
+next: Etape d'empaquetage
 next_url: bytecode-compiler/packager
 ---
 
-Once the generator has processed the AST, it needs to properly encode
-the bytecode. This stage is very simple, and is mostly for
-recordkeeping.
+Une fois que le générateur a traité l'arbre syntaxique (AST), on a
+besoin d'encoder le bytecode. Cette étape est très simple, et principalement
+effectué en vue de sauvegarde ("recordkeeping").
 
-The Encoder stage is responsible for two things:
+L'étape d'encodage est responsable de deux choses:
 
-* converting the stream of instructions created in the previous stage
-  (when the AST nodes called `bytecode`) into an instruction sequence.
-* validating that the stack does not underflow, overflow, or otherwise
-  contain faulty semantics.
+* convertir en séquence d'instruction le flux des instruction créées à l'étape précédente 
+  (lorsque les noeuds de l'arbre syntaxique - AST - ont été convertis en bytecode)
+* s'assurer que la pile n'est pas sous alimentée (underflow), qu'elle ne déborde pas
+  (overflow), ou qu'elle ne contient pas de faute sémantique.
 
-It performs these steps on the main Generator object, as well as any
-child Generators (generators for blocks, methods or other structures
-encountered inside of the main body).
+On effectue ces étapes sur l'objet Generator principal (main Generator object),
+ainsi que sur tous les générateur enfants (générateur pour les blocks,
+les méthodes et autres structures rencontrés à l'intérieur du corps principal).
 
-Once this stage is complete, it passes the encoded Generator object to
-the next stage, the Packager stage.
+Une fois cette étape terminée, on passe l'objet Generator encodé à l'étape suivante,
+l'empaquetage.
 
-## Files Referenced
+## Fichiers référencés
 
-* *lib/compiler/generator.rb*: The `encode` method in the file performs
-  the bulk of the work in this stage.
+* *lib/compiler/generator.rb*: La méthode `encode` dans le fichier effectue
+  la majeur partie du travail de cette étape.
 
-## Customization
+## Personnalisation
 
-Since this stage is so simple, you will not need to customize it. You
-might want to instrument it (for instance, for profiling or printing).
-To learn more about general-purpose customization, which you can use to
-instrument any stage, check out [Customizing the Compiler
-Pipeline](/bytecode-compiler/customization/).
+Comme cette étape est très simple, vous n'aurez pas besoin de la personnalisée. Vous
+souhaiterez peut-être agir dessus (par exemple, pour profiler ou imprimer).
+Regarder [Personnaliser le Pipeline du Compilateur](/bytecode-compiler/customization/)
+pour une vue globale sur la personnalisation.

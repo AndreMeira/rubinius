@@ -1,51 +1,51 @@
 ---
-layout: doc_en
-title: Generator
+layout: doc_fr
+title: Generateur
 previous: Transformations
 previous_url: bytecode-compiler/transformations
-next: Customizing the Compiler Pipeline
+next: Personnaliser le pipeline du Compilateur
 next_url: bytecode-compiler/customization
 review: true
 ---
 
-Once Melbourne has created an AST, it invokes the generator stage,
-passing the AST as the input.
+Une fois que Melbourne a créé l'arbre syntaxique (AST), il passe l'AST 
+à l'étape du générateur.
 
-The generator stage creates a new instance of `Rubinius::Generator`, and
-asks the root of the AST to generate its bytecode onto the `Generator`
-object.
+A l'étape du Générateur est créé une nouvelle instance de `Rubinius::Generator`,
+et on demande à la racine de l'arbre de générer son bytecode sur l'objet
+`Generator`.
 
-A `Generator` provides a pure-Ruby DSL for generating Rubinius bytecode.
-At its core, the `Generator` provides methods that map directly to
-[Rubinius Instructions](/doc/en/virtual-machine/instructions/). For instance,
-to create an instruction to push a nil onto the stack, you could call
-the method `push_nil` on a `Generator` instance.
+Un générateur fourni une pure Ruby DSL (domain specific language) qui permet de 
+générer le bytecode Rubinius. En interne, le générateur fournit des méthodes
+qui correspondent (mapping) directement aux [instructions Rubinius](/doc/fr/virtual-machine/instructions/)
+Par exemple, pour créer l'instruction de mettre nil sur la pile, 
+vous pouvez appelez la méthode `push_nil` d'une instance de `Generator`.
 
-The `Generator` class also provides a number of convenience methods that
-allow you to generate common patterns of bytecodes without going into
-the very low-level details of some areas of the Rubinius instruction
-set.
+La classe `Generator` fournit également un certain nombre de méthodes utiles
+qui vous permettent de générer des motifs (patterns) fréquents de bytecode, 
+sans que vous n'ayez à entrer dans les détails de très bas niveau des instructions
+Rubinius.
 
-For instance, to send a method directly using Rubinius bytecode, you
-would need to create a literal representing the name of the method, and
-then call `send_stack` to send the method. In addition, if you wan#ted to
-call a private method, you would first need to create a bytecode
-specifically allowing private method invocation. If you wanted to invoke
-the method `puts` with no arguments, allowing private method
-invocations, you would:
+Par exemple, pour faire un appel de méthode ("un envoi de message") en utilisant
+du bytecode Rubinius directement, vous aurez besoin de créer une representation 
+literale du nom de la méthode, et ensuite appeler `send_call` pour appeler la méthode.
+De plus si vous souhaitiez appeler une méthode privée, vous auriez dû d'abord
+créer du bytecode qui permet spécifiquement les invocations de méthodes privées.
+Si vous vouliez faire un appel privée, vous auriez dû faire:
 
-    # here, g is a Generator instance
+    # ici, g est une instance de Generator
     g.allow_private
     name = find_literal(:puts)
     g.send_stack name, 0
 
-Using the `send` helper, you could do this more simply:
+En utilisant la méthode d'aide, vous pouvez le faire plus simplement:
 
     g.send :puts, 0, true
 
-When generating the bytecode for an AST, Rubinius invokes the method
-`bytecode` on each AST node, passing in the current `Generator`
-instance. Here's the bytecode method for the `if` node:
+Lorsque le bytecode est généré pour l'arbre syntaxique (AST), Rubinius
+invoke la méthode `bytecode` sur chaque noeud, en passant en argument 
+l'instance du générateur courant. Voici la methode bytecode pour le
+le noeud 'if'.
 
     def bytecode(g)
       pos(g)
@@ -65,67 +65,73 @@ instance. Here's the bytecode method for the `if` node:
       done.set!
     end
 
-First, the method calls the method `pos`, a method on the base `Node`
-class, which calls `g.set_line @line`. This is used by the VM to provide
-debugging information for running code.
+D'abord, la méthode appelle la méthode `pos`, une méthode hérité de la 
+classe Node de base, qui elle même appelle `g.set_line @line`. 
+Ceci est utilisé par la machine virtuelle pour fournir des informations de
+déboggage pendant l'execution de code. 
 
-Next, the code uses the label helpers in the `Generator`. Raw Rubinius
-bytecode does not have any control structures except for a few goto
-instructions (plain `goto`, `goto_if_true` and `goto_if_false`). You can
-use the shortened form `git` for `goto_if_true` and `gif` for
-`goto_if_false`. In this case, we create two new labels, one for the end
-of the `if` condition, and one marking the start of the `else` block.
+Ensuite, le code utilise le "helper" (methode d'aide) de label sur 
+l'instance du générateur. Le bytecode brut de Rubinius n'a aucune 
+structure de contrôle, mis à part `goto` et ses dérivés 
+(`goto_if_true` et `goto_if_false`). Vous pouvez utiliser les racourcis
+git (goto_if_true) ou gif (goto_if_false). 
 
-After creating the two labels, the `if` node invokes the `bytecode`
-method on its `@condition` child node, passing along the current
-`Generator` object. This will emit the bytecode for the condition into
-the current stream.
+Dans notre exemple, on crée 
+deux nouveaux labels, un pour la fin de la condition `if`, et l'autre
+pour marquer la début du bloc `else`.
 
-That process should leave the value of the condition expression on the
-stack, so the `if` node emits a `goto_if_false` instruction that will
-jump immediately to `else_label`. It then uses the same pattern we saw
-before to ask the `@body` to emit its bytecode into the current stream,
-and then emits an unconditional `goto` instruction to the end of the
-conditional.
+Après avoir créer les deux labels, la noeud `if` invoque la méthode 
+`bytecode` de son noeud enfant `@condition`, et lui passe l'instance
+du générateur courant. Cela produira le bytecode de la condition dans le
+flux courant.
 
-Next, we need to mark the location of the `else_label`. By decoupling the
-creation of the label from its use, we can pass it to the `goto`
-instruction before marking its location, which is crucial for many
-control structures.
+Ce processus devrait laisser la valeur de la condition sur la pile,
+et donc si le noeud `if` emet une instruction `goto_if_false` 
+cela provoquera un saut immédiat vers le label `else_label`. On utilise
+ensuite le pattern que l'on a déjà vu pour appeler le noeud enfant `@body`
+et émettre ainsi son bytecode dans le flux courant. On émet ensuite
+un goto inconditionnel (toujours réalisé) vers la fin de la condition.
 
-We then ask the `@else` node to emit its bytecode and mark the location
-of the `done` label.
+Ensuite, nous avons besoin de marquer la position du label `else_label`.
+En découplant la création du label de son utilisation, on peut lui passer
+une instruction `goto` avant de connaître sa réelle position, ce qui
+est crucial pour beaucoup de structure de contrôle.
 
-This process occurs recursively from the root node all the way through
-the AST, which results in populating the `Generator` object with a
-bytecode representation of the AST that started from the root.
+Nous demandons maintenant au noeud `@else` d'emettre son bytecode et de 
+marquer la position du label `done`.
 
-You will probably find it useful to look at the classes in the
-`lib/compiler/ast` directory, which define all of the AST nodes and
-their associated bytecode methods. This is also a good way to see
-practical examples of using the `Generator` API.
+Ce processus s'effectue récursivement depuis la racine à travers les
+branches de l'arbre syntaxique (AST). Cela a pour conséquence de remplir
+l'objet `Generator` avec le bytecode produit par l'AST en commençant par la racine.
 
-Once the `Generator` has acquired the bytecode representation of the
-AST, it invokes the next stage of the compiler, the Encoder stage.
+Vous trouverez certainement utile de regarder les classes présente 
+dans le dossier `lib/compiler/ast`, qui définissent tous les noeuds
+de l'AST, et leur méthode `bytecode`associée. C'est également un bon 
+moyen de voir des exemples pratiques de l'utilisation de l'API du 
+`Generator`.
 
-## Files Referenced
+Une fois que le `Generator` a acquis la represention en bytecode de l'arbre 
+syntaxique, il invoque l'étape suivante, l'étape d'encodage.
 
-* *lib/compiler/generator_methods.rb*: A generated file containing Ruby
-  wrappers around the Rubinius instructions. These methods map directly
-  onto the [Rubinius Instructions](/doc/en/virtual-machine/instructions/)
-* *lib/compiler/generator.rb*: The definition of the `Generator` object.
-  This class mixes in the raw generator methods, and defines a number of
-  higher level APIs for generating common bytecode patterns.
-* *lib/compiler/ast*: The definition of all of the AST nodes created by
-  the Parser stage of the compiler.
+## Fichiers référencés
 
-## Customization
+* *lib/compiler/generator_methods.rb*: Un fichier généré qui contient
+   une enveloppe Ruby (Ruby wrapper) des instructions Rubinius. Ces méthodes
+   correspondent directement aux 
+   [InstructionsRubinius](/doc/en/virtual-machine/instructions/)
+* *lib/compiler/generator.rb*: La définition de l'objet `Generator`.
+   Cette classe mixe des méthodes de bas niveau et de plus haut niveau,
+   pour générer certains motifs de bytecode.
+* *lib/compiler/ast*: Contient la définition de tous les noeuds de l'AST
+   créé à l'étape du Parseur.
+   
+## Personnalisation
 
-The easiest way to customize the Generator stage of the compiler process
-is by creating higher-level methods in addition to the common ones
-provided by the default `Generator` implementation.
+La façon la plus simple de personnaliser l'étape de génération du processus
+de compilation est de crée des instruction de haut niveau en plus des instructions
+communes fournis par l'implémentation par défaut du `Generator`.
 
-You can also customize which generator class is passed in. To learn
-more about customizing individual compiler stages or the compiler
-pipeline, please read [Customizing the Compiler
-Pipeline](/doc/en/bytecode-compiler/customization/).
+Vous pouvez aussi personnaliser quelle classe de générateur est passée.
+Pour apprendre davantage sur la personnalisation des étapes de compilations,
+lisez [Personnaliser le pipeline du compilateur](/doc/fr/bytecode-compiler/customization/).
+

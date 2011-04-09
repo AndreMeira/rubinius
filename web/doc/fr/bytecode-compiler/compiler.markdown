@@ -1,6 +1,6 @@
 ---
-layout: doc_en
-title: Compiler
+layout: doc_fr
+title: Compilateur
 previous: AST
 previous_url: bytecode-compiler/ast
 next: Transformations
@@ -10,5 +10,6 @@ review: true
 
 TODO: document the compiler.
 
-The bytecode compiler walks the AST produced by the parser and emits bytecode
-for each node. The source for the compiler is in lib/compiler.
+Le compilateur de bytecode fonctionne avec l'arbre syntaxique (AST) produit par le 
+parseur et emets du bytecode pour chaque noeud. Le code source du compilateur 
+se situe dans lib/compiler.

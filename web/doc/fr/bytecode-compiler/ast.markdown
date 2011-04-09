@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: Abstract Syntax Trees
-previous: Parser
+layout: doc_fr
+title: Arbre syntaxique abstrait (AST)
+previous: Analyseur grammatical (Parseur)
 previous_url: bytecode-compiler/parser
-next: Compiler
+next: Compilateur
 next_url: bytecode-compiler/compiler
 review: true
 ---

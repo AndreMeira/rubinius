@@ -1,7 +1,7 @@
 ---
-layout: doc_en
-title: Ruby Parser
-previous: Bytecode Compiler
+layout: doc_fr
+title: L'analyseur grammatical (Ruby Parser)
+previous: Le compilateur de bytecode
 previous_url: bytecode-compiler
 next: AST
 next_url: bytecode-compiler/ast
