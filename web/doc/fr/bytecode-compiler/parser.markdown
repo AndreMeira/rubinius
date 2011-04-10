@@ -8,55 +8,56 @@ next_url: bytecode-compiler/ast
 review: true
 ---
 
-The first stage in the compilation pipeline is the Ruby Parser. The Ruby
-parser receives either a String of code or a file and passes an AST to
-the next stage of the process, the generator.
+La première étape du pipeline de compilation est l'étape du Parseur Ruby.
+Le parseur Ruby peut recevoir aussi bien une chaine de caractères qu'un
+fichier. A partir de cette entrée, il construit un arbre syntaxique (AST)
+à l'étape suivante, l'étape de génération.
 
-The parser itself (called Melbourne) has a C part, which is essentially
-MRI's parser, and a Ruby part, which is responsible for creating the Ruby
-AST. The C parser communicates with Ruby by calling a method for each
-node in the parse tree.
+Le parser en lui même (appelé Melbourne) possède une partie en C, qui 
+correspond essentiellement au parser MRI, et une partie en Ruby. Cette 
+dernière partie est responsable de la construction de l'arbre syntaxique (AST).
+La partie en C communique avec la partie en Ruby en appelant une méthode
+pour chaque noeud au cours de l'analyse de l'arbre.
 
-Each of these methods has a signature containing all of the information
-about the part of the parse tree it is processing. For instance, if the
-underlying Ruby code has an `if` statement, the C parser will call
-`process_if` with the line number, a parameter representing the
-condition, and parameters representing the body of the if statement and
-the else section, if any.
+Chacune de ces méthode a une signature qui contient toutes les informations
+sur la partie de l'arbre qui est en cours d'analyse. Par exemple, 
+si le code sous jacent contient un `if`, le parser C appelera la méthode
+`process_if` avec le numéro de ligne, un paramètre représentant la condition,
+et un paramètre qui représente le corps du `if` et la partie `else`,
+s'il y en a une.
 
     def process_if(line, cond, body, else_body)
       AST::If.new line, cond, body, else_body
     end
 
-You can see all of the possible `process_` calls by taking a look at
-`lib/melbourne/processor.rb` in the Rubinius source code.
+Vous pourrez voir tous les appels possible aux méthode du type `process_`
+dans le fichier `lib/melbourne/processor.rb` du code source de Rubinius.
 
-Note that in many cases, the parser passes the result of calling a
-previous `process_` method as the arguments to a `process_` method. In
-the case of `true if 1`, the parser first calls `process_lit(line 1)` and
-`process_true(line)`. It also calls `process_nil(line)`, because the
-original parse tree contains a `nil` for the `else` body. It then calls
-`process_if` with the line number, the result of `process_lit`, the
-result of `process_true`, and the result of `process_nil`.
+Notez que dans beaucoup de cas, le parser passe le résultat d'un précédent
+appel à une méthode `process_` comme argument d'une méthode `process_`. 
+Dans le cas de `true if 1`, le parser appelle d'abord `process_lit(line 1)`
+et `process_true(line)`. Il appelle également `process_nil(line)`, parce que 
+l'arbre original contient un `nil` comme corps du `else`. Il appelle ensuite
+`process_if` avec le numéro de ligne, le résultat de `process_lit`, le résultat
+de `process_true`, et le resultat de `process_nil`.
 
-This process recursively builds up a tree structure, which Rubinius passes
-on to the next stage, the Generator stage.
+Le processus construit récursivement la structure de l'arbre, que Rubinius
+passera à l'étape suivante: l'étape de génération.
 
-## Files Referenced
+## Fichiers référencés
 
-* *lib/melbourne/processor.rb*: the Ruby interface to the C parser. This
-  file contains methods beginning with `process_`, which the C parser
-  calls for each node in the raw parse tree.
-* *lib/compiler/ast/\**: the definitions for each of the AST nodes used
-  by the melbourne processor.
+* *lib/melbourne/processor.rb*: L'interface Ruby du parser C. Ce fichier
+   contient les méthodes commençant par `process_`, que le parser C appelle
+   pour chaque noeud de l'arbre d'analyse brut.
+* *lib/compiler/ast/\**: Les définitions de chaque noeud de l'arbre syntaxique (AST)
+   utilisé par Melbourne.
+  
+## Personnalisation
 
-## Customization
+Il y a deux façon de personnaliser cette étape de la compilation. 
+La plus simple est de  [transformer l'AST](/bytecode-compilation/transformations/)., 
 
-There are two ways to customize this stage of the compilation process.
-The easiest way to customize the creation of the AST is through
-[AST Transforms](/bytecode-compilation/transformations/).
-
-You can also subclass the Melbourne processor and define your own
-handlers for the `process_` methods. This is an advanced topic that is
-not yet documented.
+Vous pouvez aussi définir une sous-classe du processeur Melbourne, et définir
+vos propres "handlers" pour les méthodes `process_`. Ceci est une technique avancée
+qui n'est pas encore documentée.
 
