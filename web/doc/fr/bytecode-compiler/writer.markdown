@@ -10,8 +10,8 @@ next_url: bytecode-compiler/transformations
 Une fois que le packager a créé la CompiledMethod, Rubinius écrira
 la méthode dans un fichier pour une future consommation. Par exemple,
 après qu'un fichier ait été inclus une première fois, les inclusions
-ultérieures chargeront le fichier à partir du disque, plutôt que de 
-charger le code Ruby, de le parser à nouveau et le compiler.
+ultérieures chargeront le fichier à partir du disque, plutôt que de charger 
+le code Ruby, de le parser à nouveau et le compiler.
 
 Cette étape est extrèmement simple. Elle prend le nom du fichier original,
 lui ajoute un `c` à la fin, et appelle Rubinius::CompiledFile.dump avec
@@ -23,7 +23,8 @@ et devient la valeur de retour du tout le processus de compilation.
 ## Fichiers référencés
 
 * *lib/compiler/compiled_file.rb*: L'implémentation de CompiledFile.
-  `CompiledFile.dump` est appelé dans le but de "dumper" la  CompiledMethod courante.
+  `CompiledFile.dump` est appelé dans le but de "dumper" la  CompiledMethod 
+  courante.
   
 ## Personnalisation
 

@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: Young Generation
+layout: doc_fr
+title: Jeune Generation
 previous: Nursery
 previous_url: garbage-collector/nursery
-next: Mature Generation
+next: Generation Mature
 next_url: garbage-collector/mature-generation
 review: true
 ---

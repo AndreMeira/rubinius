@@ -8,22 +8,23 @@ next_url: terms-index
 review: true
 ---
 
-Concevoir une machine virtuelle et implémenter un langage demande des connaissances. 
-Le but de Rubinius est de repousser les frontières entre le langage et son implémentation,
-en vous permettant de rester à l'intérieur de Ruby lui-même - 
-et d'accéder à des ressources bas niveau. Mais avant que vous n'hackiez le 
-Garbage Collector (système de nettoyage de la mémoire) vous devez comprendre
-ce qui se passe sous le capot.
+Concevoir une machine virtuelle et implémenter un langage demande des 
+connaissances.  Le but de Rubinius est de repousser les frontières entre le 
+langage et son implémentation, en vous permettant de rester à l'intérieur de 
+Ruby lui-même - et d'accéder à des ressources bas niveau. Mais avant que vous 
+n'hackiez le Garbage Collector (système de nettoyage de la mémoire) vous devez 
+comprendre ce qui se passe sous le capot.
 
 Cette page contient des références bibliographiques, imprimées ou en ligne, 
 des adresses de blogs, et d'autres publications qui vous seront utiles 
 pour travailler avec Rubinius.
 
-NOTE : certains liens peuvent contenir des informations périmées à propos de Rubinius.
+NOTE : certains liens peuvent contenir des informations périmées à propos de 
+Rubinius.
 
 ## Machine virtuelle
 
-  * [Smalltalk-80: language and its implementation](http://tinyurl.com/3a2pdq)
+  * [Smalltalk-80: language and its implementation] (http://tinyurl.com/3a2pdq)
     par Goldberg, Robson, Harrison (aka "The Blue Book"), les chapitres 
     sur l'implementation sont disponibles en ligne (http://tinyurl.com/6zlsd)
   * [Virtual machines](http://tinyurl.com/3ydkqg) par Iain D. Craig

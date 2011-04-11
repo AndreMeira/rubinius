@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: Large Objects
-previous: Mature Generation
+layout: doc_fr
+title: Objets Volumineux
+previous: Generation Mature 
 previous_url: garbage-collector/mature-generation
-next: Rubinius Systems
+next: Le système Rubinius
 next_url: systems
 review: true
 ---

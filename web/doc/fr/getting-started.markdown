@@ -8,7 +8,8 @@ next_url: getting-started/requirements
 ---
 
 Ce guide vous aidera à faire fonctionner Rubinius. Il présume que vous 
-connaissez déjà Ruby et que vous savez installez des logiciels sur votre système.
+connaissez déjà Ruby et que vous savez installez des logiciels sur votre 
+système.
 
 Si vous continuez à rencontrer des difficultés malgré ce guide, faites un tour
 sur l'IRC irc.freenode.net, channel #rubinius.

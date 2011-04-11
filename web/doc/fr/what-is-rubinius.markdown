@@ -17,12 +17,13 @@ Rubinius implémente pour l'instant la version 1.8.7 de Ruby.
 
 ## Licence
 
-Rubinius utilise la licence BSD. Reportez vous à cette licence dans le code source.
+Rubinius utilise la licence BSD. Reportez vous à cette licence dans le code 
+source.
 
 ## Installation
 
-Rubinius tourne sous Mac OS X, et beaucoup de système d'exploitation UNIX/LINUX.
-Le support de Microsoft Window arrivera sous peu.
+Rubinius tourne sous Mac OS X, et beaucoup de système d'exploitation 
+UNIX/LINUX. Le support de Microsoft Window arrivera sous peu.
 
 Pour installer Rubinius, suivez les étapes suivantes. Pour de plus amples 
 informations, reportez vous à [Pour commencer](/doc/fr/getting-started/).
@@ -36,6 +37,6 @@ informations, reportez vous à [Pour commencer](/doc/fr/getting-started/).
 Une fois le processus d'installation terminé, suivez les instructions pour 
 ajouter l'executable Rubinius à votre PATH.
 
-Rubinius vient avec RubyGems nativement et possède rake ainsi que rdoc pré-installés.
-Pour installer le gem nokogiri, par exemple, executez `rbx gem install
-nokogiri`.
+Rubinius vient avec RubyGems nativement et possède rake ainsi que rdoc 
+pré-installés. Pour installer le gem nokogiri, par exemple, executez 
+`rbx gem install nokogiri`.

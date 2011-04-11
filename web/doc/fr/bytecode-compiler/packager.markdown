@@ -21,17 +21,19 @@ en appelant sa méthode `executable` (NdT les méthodes sont aussi des objets).
   Les littéraux sont utilisés de manière interne par Rubinius pour les 
   valeurs comme les chaînes de caractères, et sont utilisés par les 
   instructions `push_literal` et `set_literal`.
-* *lines*: un Tableau (Array) qui contient le pointeur sur la première instruction
-   du bytecode pour chaque ligne de code.
+* *lines*: un Tableau (Array) qui contient le pointeur sur la première 
+  instruction du bytecode pour chaque ligne de code.
 * *required_args*: le nombre d'arguments requis par la méthode
-* *total_args*: le nombre total d'arguments, y compris les arguments facultatifs
-  mais d'argument "splat" (syntaxiquement écrit `*args`)
+* *total_args*: le nombre total d'arguments, y compris les arguments 
+  facultatifs mais d'argument "splat" (syntaxiquement écrit `*args`)
 * *splat*: la position d'un argument "splat", s'il y en a
 * *local_count*: le nombre de variables locales, dont les paramètres
-* *local_names*: un Tuple qui contient la liste des noms de toutes les variables locales
+* *local_names*: un Tuple qui contient la liste des noms de toutes les 
+  variables locales
   Les premiers noms seront les arguments requis, optionels, splat et block 
   dans cet ordre.
-* *file*: le nom du fichier qui sera utilisé dans les informations de déboggage.
+* *file*: le nom du fichier qui sera utilisé dans les informations de 
+  déboggage.
 * *name*: le nom de la méthode.
 * *primitive*: le nom de la primitive associée à cette méthode
 * metadata: il est possible de conserver des structures additionnelles 
@@ -63,8 +65,8 @@ il invoque l'étape d'écriture, en passant la CompiledMethod en entrée.
 
 ## Personnalisatin
 
-En général, la méthode `package` est conçu pour remplir la
-CompiledMethod avec un group de variables. Cependant, vous
-pouvez aussi utiliser le "packager" pour remplir un autre objet
-avec la même interface. Mais, cela ne sera pas forcément très
-utile en soi, sans d'autres personnalisations ultérieures.
+En général, la méthode `package` est conçu pour remplir la CompiledMethod 
+avec un group de variables. Cependant, vous pouvez aussi utiliser le 
+"packager" pour remplir un autre objet avec la même interface. Mais, cela ne 
+sera pas forcément très utile en soi, sans d'autres personnalisations 
+ultérieures.

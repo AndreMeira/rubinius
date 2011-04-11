@@ -1,14 +1,15 @@
 ---
-layout: doc_en
-title: Troubleshooting
-previous: Running Rubinius
+layout: doc_fr
+title: Résolution des problèmes
+previous: Executez Rubinius
 previous_url: getting-started/running-rubinius
-next: Contributing
+next: Contribuez
 next_url: contributing
 ---
 
-The following are errors that you may encounter while building, installing, or
-running Rubinius along with suggested solutions.
+Vous trouverez ici les erreurs que vous pourriez rencontrer en construisant (build),
+en installant, ou en executant Rubinius, et des conseils pour les résoudre. 
+
 
 For any error, a first step is to ensure you have a current, clean checkout of
 Rubinius. Before going further, consider running the following steps:

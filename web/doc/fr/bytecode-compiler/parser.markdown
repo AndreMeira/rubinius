@@ -15,9 +15,9 @@ fichier. A partir de cette entrée, il construit un arbre syntaxique (AST)
 
 Le parser en lui même (appelé Melbourne) possède une partie en C, qui 
 correspond essentiellement au parser MRI, et une partie en Ruby. Cette 
-dernière partie est responsable de la construction de l'arbre syntaxique (AST).
-La partie en C communique avec la partie en Ruby en appelant une méthode
-pour chaque noeud au cours de l'analyse de l'arbre.
+dernière partie est responsable de la construction de l'arbre syntaxique 
+(AST). La partie en C communique avec la partie en Ruby en appelant une 
+méthode pour chaque noeud au cours de l'analyse de l'arbre.
 
 Chacune de ces méthode a une signature qui contient toutes les informations
 sur la partie de l'arbre qui est en cours d'analyse. Par exemple, 
@@ -38,8 +38,8 @@ appel à une méthode `process_` comme argument d'une méthode `process_`.
 Dans le cas de `true if 1`, le parser appelle d'abord `process_lit(line 1)`
 et `process_true(line)`. Il appelle également `process_nil(line)`, parce que 
 l'arbre original contient un `nil` comme corps du `else`. Il appelle ensuite
-`process_if` avec le numéro de ligne, le résultat de `process_lit`, le résultat
-de `process_true`, et le resultat de `process_nil`.
+`process_if` avec le numéro de ligne, le résultat de `process_lit`, le 
+résultat de `process_true`, et le resultat de `process_nil`.
 
 Le processus construit récursivement la structure de l'arbre, que Rubinius
 passera à l'étape suivante: l'étape de génération.
@@ -49,15 +49,16 @@ passera à l'étape suivante: l'étape de génération.
 * *lib/melbourne/processor.rb*: L'interface Ruby du parser C. Ce fichier
    contient les méthodes commençant par `process_`, que le parser C appelle
    pour chaque noeud de l'arbre d'analyse brut.
-* *lib/compiler/ast/\**: Les définitions de chaque noeud de l'arbre syntaxique (AST)
-   utilisé par Melbourne.
+* *lib/compiler/ast/\**: Les définitions de chaque noeud de l'arbre syntaxique
+  (AST) utilisé par Melbourne.
   
 ## Personnalisation
 
 Il y a deux façon de personnaliser cette étape de la compilation. 
-La plus simple est de  [transformer l'AST](/bytecode-compilation/transformations/)., 
+La plus simple est de 
+[transformer l'AST](/bytecode-compilation/transformations/)., 
 
 Vous pouvez aussi définir une sous-classe du processeur Melbourne, et définir
-vos propres "handlers" pour les méthodes `process_`. Ceci est une technique avancée
-qui n'est pas encore documentée.
+vos propres "handlers" pour les méthodes `process_`. Ceci est une technique 
+avancée qui n'est pas encore documentée.
 
