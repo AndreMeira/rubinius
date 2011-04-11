@@ -1,33 +1,35 @@
 ---
-layout: doc_en
-title: Running Rubinius
-previous: Building
+layout: doc_fr
+title: Executez Rubinius
+previous: Construction (Build)
 previous_url: getting-started/building
-next: Troubleshooting
+next: Résolution des problèmes
 next_url: getting-started/troubleshooting
 ---
 
-Once you have followed the steps for building (and possibly installing)
-Rubinius, you can verify it is working:
+Une fois que vous avez suivi les étapes pour construire (build) - et 
+potentiellement installer - Rubinius, vous pouvez vérifier qu'il fonctionne:
 
     rbx -v
 
-Rubinius generally works like Ruby from the command-line. For example:
+Rubinius fonctionne généralement comme Ruby en ligne de commande, par exemple
 
     rbx -e 'puts "Hello!"'
 
-To run a ruby file named 'code.rb':
+Pour executer un fichier ruby nommé 'code.rb': 
 
     rbx code.rb
 
-To run IRB:
+Pour executer IRB:
 
     rbx
 
-If you added the Rubinius bin directory to your PATH, Rubinius should perform
-just as you would expect from MRI. There are commands for `ruby`, `rake`,
-`gem`, `irb`, `ri`, and `rdoc`.
+Si vous ajoutez le répertoire bin de Rubinius à votre PATH, Rubinius tournera
+exactement comme la version MRI de Ruby. Il y a les même commandes `ruby`, 
+`rake`, `gem`, `irb`, `ri`, et `rdoc`.                           
 
-You can add the Rubinius bin directory to your PATH only when you want to use
-Rubinius. This way, it will not interfere with your normally installed Ruby
-when you do not want to use Rubinius.
+
+Vous pouvez ajouter le répertoire bin de Rubinius à votre PATH uniquement
+si lorsque vous souhaitez travailler avec Rubinius. De cette façon,
+vous n'interagisserez pas avec votre installation "normale" de ruby quand
+vous ne souhaitez pas utiliser Rubinius.

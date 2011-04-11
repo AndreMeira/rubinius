@@ -1,59 +1,69 @@
 ---
-layout: doc_en
-title: Building Rubinius
-previous: Requirements
+layout: doc_fr
+title: Construire Rubinius (build)
+previous:  Pré-requis
 previous_url: getting-started/requirements
-next: Running Rubinius
-next_url: getting-started/running-rubinius
+next: Executez Rubinius 
+next_url getting-started/running-rubinius
 ---
 
-You can build and run Rubinius from the source directory. You do not need to
-install Rubinius to run it. The directions below will detail both installing
-Rubinius and running it from the source directory.
+Vous pouvez construire (build) et executez Rubinius depuis le dossier des 
+sources. Vous n'aurez pas besoin d'installer Rubinius pour l'executer. 
+Les instructions ci-dessous détailleront à la fois l'installation et 
+l'execution de Rubinius depuis le dossier des sources.
 
-Rubinius uses LLVM for the JIT compiler. Rubinius depends on a particular
-version of LLVM and LLVM must be built with C++ RTTI (run-time type
-information) enabled.  The `configure` script will automatically verify these
-requirements when searching for an installed version of LLVM. If you do have
-LLVM installed and Rubinius fails to link with it for any reason, pass
-`--skip-system` to the `configure` script in the directions below.
-
-### Getting the Source
-
-The Rubinius source code is available as a tarball and as a project on Github.
-You can [download the tarball here](http://rubini.us/download/latest).
-
-To use Git:
-
-  1. Change your current working directory to your development directory
-  2. `git clone git://github.com/evanphx/rubinius.git`
+Rubinius utilise LLVM comme compilateur JIT. Rubinius dépend d'une version
+particulière de LLVM et LLVM doit être construit (build) avec C++ RTTI 
+(runtime type information) d'activé.
+Le script `configure` vérifiera automatiquement ce pré-requis quand il 
+cherchera une version installée de LLVM. Si vous avez LLVM d'installé et que
+Rubinius échoue à se lier à LLVM - pour quelques raisons que ce soit, 
+ajoutez l'option  `--skip-system` à `configure`.
 
 
-### Installing Rubinius
+### Récupérer les sources
 
-If you are planning on using Rubinius to run your application, this is a good
-option. However, you can also run Rubinius directly from the source directory.
-See the next section for more details on that.
+Le code source de Rubinius est disponible sous la forme d'un tarball et comme
+projet sur GitHub. Vous pouvez 
+[télécharger le tarball ici](http://rubini.us/download/latest).
 
-We recommend installing Rubinius to a location that does not require `sudo` or
-superuser privileges. To install Rubinius:
+Pour utiliser Git
 
-  1. `./configure --prefix=/path/to/install/dir`
-  2. `rake install`
-  3. Follow the directions to add the Rubinius _bin_ directory to your PATH
+  1. Placez vous dans votre répertoire de developpement.  
+  2. executez `git clone git://github.com/evanphx/rubinius.git`
 
 
-### Running from the Source Directory
+### Installez Rubinius
 
-If you plan to work on Rubinius itself, you should use this option.
+Si vous avez prévu de faire tourner votre application sous Rubinius, c'est 
+une bonne option. Cependant, vous pouvez aussi executez Rubinius directement
+depuis le dossier des sources. Voyez la section suivante pour plus 
+d'information.
+
+
+Nous recommendons d'installer Rubinius à un endroit qui ne nécessitera pas 
+de sudo ou de privilège super utilisateur.
+
+
+  1. executez `./configure --prefix=/path/to/install/dir`
+  2. executez `rake install`
+  3. Suivez les instructions pour ajouter répertoire bin de Rubinius 
+     à votre variable PATH 
+
+### Executez Rubinius depuis le dossier des sources
+
+Si vous avez prévue de travailler sur Rubinius lui-même, vous devriez 
+suivre ces instructions.
+
 
   1. `./configure`
   2. `rake`
 
-If you are just trying out Rubinius, follow the directions to add the _bin_
-directory to your PATH.
 
-However, if you are developing Rubinius, you should NOT add the _bin_
-directory to your PATH because the Rubinius build system will pick up the
-`ruby` and `rake` links to the Rubinius executable. Rubinius needs a separate
-Ruby executable to bootstrap itself during the build process.
+Si vous souhaitez seulement essayer Rubinius, suivez les instruction pour
+ajouter le dossier _bin_ Rubinius à votre PATH. parce que le build de Rubinius 
+ira chercher `ruby` et `rake` pour les lier à l'executable Rubinius. 
+Rubinius a besoin d'un ruby séparé pour le démarrage (bootstrap) pendant
+le processus de construction (build) 
+
+
