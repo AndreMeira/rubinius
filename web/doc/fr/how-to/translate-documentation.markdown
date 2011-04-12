@@ -1,37 +1,37 @@
 ---
-layout: doc_en
-title: How-To - Translate Documentation
-previous: Write Documentation
+layout: doc_fr
+title: Comment écrire des traductions
+previous: Ecrire de la Documentation
 previous_url: how-to/write-documentation
-next: Appendix A - Glossary
+next: Appendix A - Glossaire
 next_url: appendix-a-glossary
 ---
 
-There are two translation tasks:
+Il y a deux tâches dans la traduction de la documentation:
 
-1. updating an existing translation
-1. creating a completely new translation
+1. Mettre à jour une traduction existente
+2. Ajouter une langue aux traductions
 
-Begin by reading [How-To - Write
+Commencez par lire [Comment écrire de la
 Documentation](/doc/en/how-to/write-documentation/)
 
 
-### Updating an Existing Translation
+### Mettre à jour une traduction existente
 
-To update an existing translation, open the topic file under `web/doc/LANG`
-and edit the existing text or add newly translated text.
+Pour mettre à jour une traduction existente, ouvrez le sujet à traduire
+dans `web/doc/LANG` et éditez le texte ou ajouter du texte supplémentaire.
 
 
-### Creating a New Translation
+### Ajouter une langue
 
-To create a new language translation:
+Pour ajouter une langue, suivez ces instructions:
 
-1. Copy `web/doc/en` to `web/doc/LANG` where _LANG_ is the
-   [ISO-639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) code for
-   the language translation you are creating.
-1. Edit the links in the Table of Contents to point to the location of the
-   files for the translation. (Note that for some reason the `page.base_dir`
-   attribute is not available when these files are being rendered by Jekyll.
-   This needs to be investigated.)
-1. Translate the English text to the target language.
+1. Copiez `web/doc/en` vers `web/doc/LANG` où 'LANG' représente le code
+   de la langue à ajouter selon la norme 
+   [ISO-639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-2_codes)
+2. Editez les liens de la table des matières pour qu'ils pointent à 
+   l'adresse des fichiers de votre langue. (Il semble que `page.base_dir`
+   ne fonctionne pas quand ces fichiers sont traités par Jekyll. Il faudrait
+   enquêter la dessus)
+3. Traduisez l'anglais dans la langue cible.
 
