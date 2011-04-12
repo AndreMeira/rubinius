@@ -9,11 +9,11 @@ review: true
 ---
 
 Le compilateur de Rubinius converti du code source ruby en bytecode que la 
-machine virtuelle peut executer. Il utilise une série d'étape pour transformer
+machine virtuelle peut executer.  Il utilise une série d'étape pour transformer
 l'entrée dans une forme que la machine virtuelle peut comprendre.
 
-Chaque étape est découplée du reste du processus -
-chacune attend une forme particulière d'entrée et envoie sa sortie à l'étape suivante.
+Chaque étape est découplée du reste du processus - chacune attend une forme 
+particulière d'entrée et envoie sa sortie à l'étape suivante.
 Cela rend le processus de compilation relativement configurable, 
 et vous pouvez agir sur n'importe quelle étape aisément.
 

@@ -1,9 +1,9 @@
 ---
-layout: doc_en
+layout: doc_fr
 title: Nursery
-previous: Garbage Collector
+previous: Collecte mémoire (Garbage Collector)
 previous_url: garbage-collector
-next: Young Generation
+next: Jeune Generation
 next_url: garbage-collector/young-generation
 review: true
 ---

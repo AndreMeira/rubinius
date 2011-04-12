@@ -11,27 +11,29 @@ review: true
 Une fois que Melbourne a créé l'arbre syntaxique (AST), il passe l'AST 
 à l'étape du générateur.
 
-A l'étape du Générateur est créé une nouvelle instance de `Rubinius::Generator`,
-et on demande à la racine de l'arbre de générer son bytecode sur l'objet
-`Generator`.
+A l'étape du Générateur est créé une nouvelle instance de 
+`Rubinius::Generator`, et on demande à la racine de l'arbre de générer son 
+bytecode sur l'objet `Generator`.
 
-Un générateur fourni une pure Ruby DSL (domain specific language) qui permet de 
-générer le bytecode Rubinius. En interne, le générateur fournit des méthodes
-qui correspondent (mapping) directement aux [instructions Rubinius](/doc/fr/virtual-machine/instructions/)
-Par exemple, pour créer l'instruction de mettre nil sur la pile, 
-vous pouvez appelez la méthode `push_nil` d'une instance de `Generator`.
+Un générateur fourni une pure Ruby DSL (domain specific language) qui permet 
+de générer le bytecode Rubinius. En interne, le générateur fournit des 
+méthodes qui correspondent (mapping) directement aux 
+[instructions Rubinius](/doc/fr/virtual-machine/instructions/)
+Par exemple, pour créer l'instruction de mettre nil sur la pile, vous pouvez 
+appelez la méthode `push_nil` d'une instance de `Generator`.
 
 La classe `Generator` fournit également un certain nombre de méthodes utiles
 qui vous permettent de générer des motifs (patterns) fréquents de bytecode, 
-sans que vous n'ayez à entrer dans les détails de très bas niveau des instructions
-Rubinius.
+sans que vous n'ayez à entrer dans les détails de très bas niveau des 
+instructions Rubinius.
 
-Par exemple, pour faire un appel de méthode ("un envoi de message") en utilisant
-du bytecode Rubinius directement, vous aurez besoin de créer une representation 
-literale du nom de la méthode, et ensuite appeler `send_call` pour appeler la méthode.
-De plus si vous souhaitiez appeler une méthode privée, vous auriez dû d'abord
-créer du bytecode qui permet spécifiquement les invocations de méthodes privées.
-Si vous vouliez faire un appel privée, vous auriez dû faire:
+Par exemple, pour faire un appel de méthode ("un envoi de message") en 
+utilisant du bytecode Rubinius directement, vous aurez besoin de créer une 
+representation literale du nom de la méthode, et ensuite appeler `send_call` 
+pour appeler la méthode.  De plus si vous souhaitiez appeler une méthode 
+privée, vous auriez dû d'abord créer du bytecode qui permet spécifiquement les 
+invocations de méthodes privées.  Si vous vouliez faire un appel privée, vous 
+auriez dû faire:
 
     # ici, g est une instance de Generator
     g.allow_private
@@ -102,7 +104,8 @@ marquer la position du label `done`.
 
 Ce processus s'effectue récursivement depuis la racine à travers les
 branches de l'arbre syntaxique (AST). Cela a pour conséquence de remplir
-l'objet `Generator` avec le bytecode produit par l'AST en commençant par la racine.
+l'objet `Generator` avec le bytecode produit par l'AST en commençant par la 
+racine.
 
 Vous trouverez certainement utile de regarder les classes présente 
 dans le dossier `lib/compiler/ast`, qui définissent tous les noeuds
@@ -128,10 +131,11 @@ syntaxique, il invoque l'étape suivante, l'étape d'encodage.
 ## Personnalisation
 
 La façon la plus simple de personnaliser l'étape de génération du processus
-de compilation est de crée des instruction de haut niveau en plus des instructions
-communes fournis par l'implémentation par défaut du `Generator`.
+de compilation est de crée des instruction de haut niveau en plus des 
+instructions communes fournis par l'implémentation par défaut du `Generator`.
 
 Vous pouvez aussi personnaliser quelle classe de générateur est passée.
 Pour apprendre davantage sur la personnalisation des étapes de compilations,
-lisez [Personnaliser le pipeline du compilateur](/doc/fr/bytecode-compiler/customization/).
+lisez 
+[Personnaliser le pipeline du compilateur](/doc/fr/bytecode-compiler/customization/).
 
