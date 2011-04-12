@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: Instance Variables
-previous: Local Variables
+layout: doc_fr
+title: Variables d'Instance 
+previous: Variables Locales
 previous_url: ruby/locas-variables
-next: Class Variables
+next: Variables de Classe
 next_url: ruby/class-variables
 review: true
 ---

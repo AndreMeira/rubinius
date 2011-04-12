@@ -1,7 +1,7 @@
 ---
-layout: doc_en
+layout: doc_fr
 title: Classes & Modules
-previous: Constants
+previous: Constantes
 previous_url: ruby/constants
 next: Blocks & Procs
 next_url: ruby/blocks-and-procs

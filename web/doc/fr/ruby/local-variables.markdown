@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: Local Variables
+layout: doc_fr
+title: Variables Locales
 previous: Blocks & Procs
 previous_url: ruby/blocks-and-procs
-next: Instance Variables
+next: Variables d'Instance 
 next_url: ruby/instance-variables
 review: true
 ---

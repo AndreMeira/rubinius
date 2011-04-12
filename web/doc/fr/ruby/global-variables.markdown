@@ -1,24 +1,28 @@
 ---
-layout: doc_en
-title: Global Variables
-previous: Class Variables
+layout: doc_fr
+title: Variables Globales
+previous: Variables de Classe
 previous_url: ruby/class-variables
 next: Specs
 next_url: specs
 review: true
 ---
 
-Syntatically, a global variable is supposed to be a variable whose name begins
-with `$`. Global variables are supposed to be available from any context in a
-Ruby program. However, there are actually three different kinds of globals: true
-globals, thread-local globals, and pseudo globals.
+Syntaxiquement, une variable globale est une variable dont le nom commence
+par un `$`. Les variables globales sont sensé être disponibles depuis 
+n'importe quel contexte d'un programme Ruby. Il y a en fait trois type de
+globales : les "vraies" globales, les globales locales à un thread, et 
+les pseudos globales, 
 
-True globals associate a value with a global name, such as `$LOAD_PATH`.
+Les vrais globales associent une valeur à un nom global (global name) comme
+`$LOAD_PATH`.
 
-Thread-local globals have the syntax of a global variable but there is a
-different version of the global for each thread in the running Ruby process.
-Examples of thread-local globals are `$SAFE` and `$!`. To see that these
-values depend on the thread, consider the following code:
+Les globales de Thread ont une syntaxe identique aux vraies globales, mais 
+ont une existence séparée de tel sorte qu'il existe une version de la globale
+dans chaque thread du processus. 
+`$SAFE` et `$!` sont des exemples de variables globale localement au thread.
+Pour vérifier que ces valeur dépendent du thread, examinez le résultat du 
+code suivant:
 
     puts $SAFE
 
@@ -29,22 +33,25 @@ values depend on the thread, consider the following code:
 
     puts $SAFE
 
-Pseudo globals are a strict subset of names which refer not to global values
-but values in the current scope, like local variables. These are still
-referred to as global variables because they start with a dollar sign; this is
-a source of confusion for users.
+Les pseudos globales sont un sous ensemble strict de noms qui ne se réfèrent
+pas à des valeurs globales mais à des valeurs liées à la portées courantes,
+de la même manière que les variables locales. Elles sont toujours considérées
+comme globales car elles commencent aussi par un dollar, ce qui constitue 
+une source de confusion pour les utilisateurs.
 
-All pseudo globals are organized around one primary pseudo global: `$~`.  They
-are all accessing parts of `$~` and thus when `$~` changes, they all
-change.
+Toutes les pseudos globales sont organisées autour de la pseudo globale
+`$~`. Elles procèdent toutes de `$~` et lorsque que `$~` change, elles
+changent toutes également.
 
-The rest of the pseudo globals are: `$&`, <code>$`</code> (backtick), `$'` (single
-quote), `$+`, and `$1`, `$2`, `$3`, etc.
+Ces pseudo globales sont:  `$&`, <code>$`</code> (backtick), `$'` (guillemet
+simple), `$+`, et `$1`, `$2`, `$3`, etc.
 
-One tricky aspect of these values is that they are strictly bound to the
-current scope but Ruby allows them to be aliased, as is done in English.rb.
+L'astuce réside en cela que ces valeurs sont lié strictement à la portée 
+courante mais que Ruby autorise des alias imitant des globales, comme 
+cela est fait dans English.rb. 
 
-These new aliases are basically adding new local variables to all scopes, even
-ones already running. Thusly, Rubinius does not fully support them. Instead we
-simply provide the aliases present in English.rb by default. For example,
-`$MATCH` can be used instead `$~`, whether English.rb is included or not.
+Ces nouveaux alias ajoute de nouvelles variables locales dans toutes les 
+portées, même celle qui sont en cours d'execution. Rubinius ne supporte pas
+complètement ce comportement. A la place nous fournissons les alias présent
+dans English.rb par défault. Par exemple $MATCH peut être utilisé à la place
+de `$~` que English.rb soit inclus ou pas.
