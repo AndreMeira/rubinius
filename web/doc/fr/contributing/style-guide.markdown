@@ -1,100 +1,104 @@
 ---
-layout: doc_en
-title: Coding Style Guide
+layout: doc_fr
+title: Convention de codave
 previous: Communication
 previous_url: contributing/communication
 next: Ruby
 next_url: ruby
 ---
 
-The following guidelines aim to keep the Rubinius codebase maintainable. When
-in doubt about a guideline here, ask us in the #rubinius IRC channel on
-irc.freenode.net.
+Les conventions de codage suivante visent à garder le code Rubinius dans un 
+état maintenable. Lorsque vous avez un doute sur la convention a adopté, 
+demandez sur le channel IRC #rubinius sur irc.freenode.net.
 
+## Tout code
 
-## All Code
+  * Configurez votre éditeur avec des espaces pour tabulation (pas de vraie tabulation)
+  * Les tabulations valent deux espaces
+  * Laisser un retour à la ligne à la fin de chaque fichier.
+  
+  
+## code C++ 
 
-  * Configure your editor for soft tabs, not hard tabs
-  * Expand tabs to two spaces
-  * Leave a trailing newline at the end of each file
+  * Ne mettez pas d'espace entre la condition et les parenthèses:
+      Utilisez `if(1)` PAS `if (1)`
 
+  * Ouvrez l'accolade sur la même ligne que la déclaration de fonction ou
+    de condition.
 
-## C++ Code
+  * Utilisez toujours les accolades, même lorsqu'elles sont optionnelles
 
-  * No space between condition and paren.
-      Use `if(1)` NOT `if (1)`
+  * Parenthèsez de préference les opérations même si la précèdences 
+    des opérateurs vous permettrait d'omettre les parenthèses. 
 
-  * Put the opening brace on the same line as the function declaration or
-    conditional
+  * les fonctions alternatives doivent être nommées de telle sorte
+    que leur nom permette de comprendre en quoi elles diffèrent. Si par exemple
+    il y a une fonction 'person()' et vous voulez une version qui prend le nom
+    de la personne en paramètre, cette fonction devrait s'appeler   
+    'person_with_name(char \*name)' ou 'person_with_details(char \*name, ...)'
+    et surtout PAS 'person1(char \*name)'.
 
-  * Always use curly braces, even if they can be left out.
+## code Ruby
 
-  * Prefer parentheses to implicit precedence rules (within reason)
+  * Methodes: Faites en sorte que vos méthodes restent courtes, et qu'elles tiennes
+    entière à l'écran, et essayez d'adhérer au principe DRY ("ne vous répétez pas")
+    dans des limites raisonnables. Généralement, les fonctionnalités communes 
+    devraient être abstractisée dans des méthodes helpers (que vous pouvez rendre privées).
+    Parfois cependant, en particulier lorsque vous travailler avec "Core" la méthode
+    DRY vous handicapera - par exemple, si vous devez manoeuvrez 
+    entre plusieurs conditions d'erreurs differentes.        
 
-  * Alternate versions of functions should be named why they are different
-    from the primary.  If there is a function 'person()' and you want a
-    version that takes the name of the person, it should be
-    'person_with_name(char \*name)' or 'person_with_details(char \*name, ...)'.
-    NOT 'person1(char \*name)'.
+  * Nom de méthodes : Les noms de méthodes doivent être clairs, expressifs et
+    porteur de sens. Evitez d'utiliser des underscores pour "protéger" la méthode
+    ('\_\_send\_\_'). Il y a bien sûr des exceptions.
+    
+  * Les noms de méthodes à la smalltalk sont autorisé, au sens où
+    une méthode telle que `SomeClass.make_from` est destinée à être 
+    appelée comme `SomeClass.make_from file` ou `SomeClass.make_from :file => name`,
+    c'est-à-dire lorsque le nom du paramètre complète le nom de la méthode et rend
+    la lecture du code plus naturelle.
 
-
-## Ruby Code
-
-  * Methods: Try to keep your methods short--one screenful and try to adhere
-    to DRY within reason. Generally common functionality should be abstracted
-    to helper methods (which you can make 'private') but in some cases,
-    particularly working with Core, sometimes trying to DRY things up is just
-    an obstacle if you have to maneuver around several different error
-    conditions, for example.
-
-  * Method names: should be clear, expressive and meaningful. Avoid using
-    underscores to 'protect' the method ('\_\_send\_\_') with some exceptions.
-
-  * Smalltalk-style method names are OK, meaning that you could have a method
-    `SomeClass.make_from` when it is intended to be invoked as
-    `SomeClass.make_from file` or `SomeClass.make_from :file => name`. There
-    the parameter name _completes_ the method name and makes for more natural
-    reading.
-
-  * Variable names: make them clear and meaningful (with some well-known
-    exceptions like using 'i' for a counter.) Try to avoid shadowing method
-    names, for example within Array use 'idx' in favour of 'index' because the
-    latter is also a method name.
-
-  * Postconditions: use postconditions only *if* your expression is a
-    one-liner *and* you do not have many conditions.
-
-  * Blocks: Use either `do ... end` or `{...}`, spaces between the delimiters
-    and code (`foo { |arg| code }`). Split long or complex expressions over
-    multiple lines like this:
-
+  * Les nom de variables: les noms de variables doivent être clairs et 
+    porteur de sens, (hormis les exception bien connues telles que
+    l'utilisation de `i` pour un compteur). Essayer d'éviter de masquer un nom 
+    de méthode par un nom de variable ; par exemple dans une classe Array, préférez
+    `idx` plutôt que `index`, qui est aussi un nom de méthode.  
+  
+    
+  * Post-conditions: utilisez les post-conditions *uniquement si* votre 
+    expression tiens sur une ligne *et* votre condition ne possède pas plusieurs termes.
+    
+  * Blocks : Mettez des espaces entre les délimiteurs et le code, que vous utilisiez 
+    do ... end` ou `{...}`. Découpez les expressions longues ou complexes en plusieurs lignes :
+    
         mapped = foo.map do |elem|
           do_something_with elem
         end
 
-  * Module/Class definitions with scope qualifiers:
+  * les définitions de Module/Class dans un espace de nom (scope qualifiers):
 
         module Rubinius::Profiler
           class Sampler
           end
         end
 
-## Kernel Code
+## Code du Kernel
 
-The primary guideline for all kernel code is simple and efficient. Simple code
-is often more efficient and generally more comprehensible. There should be no
-metaprogramming code in bootstrap. Use the #attr_xxx methods throughout the
-kernel source. Also, alias methods using the #alias_method call next to the
-method definition. Specify private methods with the `private :sym` method next
-to the method definition.  Remember that the versions of the methods listed
-above in the alpha stage take a single, symbol argument.
+La convention première pour tout code du kernel est d'être simple et efficace.
+Du code simple est souvent plus efficace et généralement plus compréhensible. 
+Il ne devrait pas y avoir de metaprogrammation dans l'étape de bootstrap. 
+Utilisez les méthodes #attr_xxx tout au long du code source du kernel.
+Si vous faites des alias de méthodes, appelez  #alias_method à côté de la définition
+de la méthode. Si vous rendez privée une méthode avec `private :sym`, faites le 
+à côté de la méthode rendue privée. Souvenez vous que les versions des méthodes 
+listées ci-dessus ne prennent qu'un argument de type symbol à l'étape "alpha". 
 
 ## Documentation
 
-  * Use RDoc for documentation in Ruby code.
+  * Utilisez  RDoc pour la documention du code Ruby
+  
+  * Utilisez Doxygen pour la documentation du code C++.
 
-  * Use Doxygen for documentation in C++ code.
-
-  * Use Markdown for documentation in the /doc directory. See [Markdown
-    syntax](http://daringfireball.net/projects/markdown/syntax) Set the text
-    width to 78 characters and use hard breaks.
+  * Utilisez Markdown pour la documentation dans le dossier /doc. Voyez [Markdown
+    syntax](http://daringfireball.net/projects/markdown/syntax) Limitez 
+    la largeur du texte à 78 caractères, et utilisez des sauts de lignes.
