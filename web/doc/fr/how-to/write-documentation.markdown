@@ -1,6 +1,6 @@
 ---
-layout: doc_en
-title: How-To - Write Documentation
+layout: doc_fr
+title: How-To - Ecrire de la documentation
 previous: Write a Blog Post
 previous_url: how-to/write-a-blog-post
 next: Translate Documentation

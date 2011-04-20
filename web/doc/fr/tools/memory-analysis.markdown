@@ -1,29 +1,31 @@
 ---
-layout: doc_en
-title: Memory Analysis
-previous: Profiler
+layout: doc_fr
+title: Analyse de la mémoire
+previous: Profileur
 previous_url: tools/profiler
 next: How-To
 next_url: how-to
 review: true
 ---
 
-Rubinius provides an interface for dumping the current heap to a file for
-offline analysis. Several companion projects analyze the heap dump file
-as an aid for discovering memory leaks, large collections and code issues
-that may lead to potential memory pressures at runtime.
+Rubinius fournit une interface pour dumper l'état courant du tas (heap) dans
+un fichier, pour une analyse ultérieure. Plusieurs projets autour de Rubinius
+analyse ce fichier et facilité la mise à jour des fuites mémoire (memory leak),
+des collections trop grandes, et des problèmes relatif à la mémoire et à 
+l'environnement d'execution.
 
-## A Sample Program
+## Un exemple
 
-The following sample code (devoid of all error checks) will form the foundation
-for a tour through tracking a memory leak in Ruby code as well as a leak in code 
-using the FFI subsystem.
+Le code suivant (sans vérification d'erreurs) servira de fondation à notre analyse 
+des fuites mémoire en Ruby, et des fuites dans le code, en utilisant le sous 
+système FFIb
 
-The code example is a bit contrived, but it serves to illustrate multiple real
-world problems.
+Le code de cet exemple est un peu artificiel, mais illustre de multiples 
+problèmes, que vous pourriez rencontrez dans la réalité. 
+Admettons que ce code soit dans le fichier leak.rb.
 
     require 'rubygems'
-    require 'ffi-rzmq'
+    require 'ffi-rzmq' 
     
     if ARGV.length < 3
       puts "usage: ruby leak.rb <connect-to> <message-size> <roundtrip-count>"
@@ -71,28 +73,31 @@ world problems.
     puts "mean latency: %.3f [us]" % latency
     puts "received #{messages.size} messages in #{elapsed_usecs / 1_000_000} seconds"
 
-Wow, this program leaks like a sieve. Let's figure out why.
+Ouhou! ce programme fuit comme une passoire. Essayons de mieux comprendre 
+pourquoi.
 
-## Saving A Heap Dump
+## Sauvegarder l'état du tas (Saving A Heap Dump)
 
-Rubinius provides access to the VM via an agent interface. The agent opens a network
-socket and responds to commands issued by the console program. The agent must be 
-started with the program.
+Rubinius fournit un accès à la machine virtuelle via une interface "agent".
+L'agent ouvre une socket réseau et répond au commandes émises par le 
+programme de la console. L'agent doit être démarré avec le programme.
 
     rbx -Xagent.start <script name>
 
-For this example, run the sample program with the agent enabled.
+Pour notre exemple, executer le programme avec l'agent activé:
 
     rbx -Xagent.start leak.rb
 
-Connect to the agent using the rbx console. This program opens an interactive session
-with the agent running inside the VM. Commands are issued to the agent. In this case 
-we are saving a heap dump for offline analysis.
+Connectez-vous à l'agent en utilisant la console rbx. Ce programme ouvre une
+session interactive avec l'agent executé dans la machine virtuelle. Les 
+commandes sont émises vers l'agent. En ce qui nous concerne, nous sommes entrain
+de sauvegarder l'état du tas pour une analyse hors-ligne (offline analysis).
 
-Upon startup, the agent writes a file to $TMPDIR/rubinius-agent.\<pid\> containing a
-few important details for the rbx console. When exiting, the agent automatically
-cleans up this file and removes it. Under some crash conditions this file may not
-get removed so a manual removal becomes necessary.
+Au démarrage, l'agent écrit dans un fichier $TMPDIR/rubinius-agent.\<pid\> 
+qui contient quelques détails important pour la console rbx. En quittant la
+programme, l'agent nettoie ce fichier et le supprime. Dans certaines conditions
+de crash, le fichier ne sera pas supprimé, et vous devrez le supprimer vous 
+même.
 
     $ rbx console
     VM: rbx -Xagent.start leak.rb tcp://127.0.0.1:5549 1024 100000000
@@ -101,20 +106,21 @@ get removed so a manual removal becomes necessary.
     console> set system.memory.dump heap.dump
     console> exit
 
-The command is `set system.memory.dump <filename>`. The heap dump file is written to
-the current working directory for the program running the agent.
+La commande est `set system.memory.dump <filename>`. Le dump du tas est écrit
+dans le dossier de travail courant pour le programme qui execute l'agent.
 
-## Analyzing A Heap Dump
+## Analyser le dump du tas
+Le fichier résultant du dump du tas est écrit dans un format bien documenté.
+Il existe deux outils capables de lire et  d'interpréter ce format. Ce sont
+deux projets distincts du projet Rubinius.
 
-The heap dump file is written using a well-documented format. So far there are two
-tools that know how to read and interpret the format. These projects are separate
-from the Rubinius project.
+Retrouverez l'outil heap\_dump [ici](https://github.com/evanphx/heap_dump).
 
-Find the heap_dump tool at [its project home page](https://github.com/evanphx/heap_dump).
+Cet outil lit le fichier du dump et donne en sortie des informations utiles 
+en trois colonnes, qui correspondent au nombre d'objet visible dans le tas,
+à la classe de ces objets, et le nombre total d'octets occupés par les toutes
+instances de ces objets.
 
-This tool reads the heap dump file and outputs some useful information in 3 columns
-corresponding to the number of objects visible in the heap, the object's class, and
-the total number of bytes consumed by all instances of this object.
 
 Running the tool against a heap dump captured from our `leak.rb` program, it gives us
 a small hint as to where the leak resides. The output is edited for length.
