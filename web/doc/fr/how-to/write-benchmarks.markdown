@@ -1,30 +1,39 @@
 ---
-layout: doc_en
-title: How-To - Write Benchmarks
-previous: Fix a Failing Spec
+layout: doc_fr
+title: How-To - Ecrire un test de performance (Benchmark)
+previous: Corriger un Spec
 previous_url: how-to/fix-a-failing-spec
-next: Write a Blog Post
+next: Ecrire un article dans un Blog
 next_url: how-to/write-a-blog-post
 ---
 
-Why benchmarks?
+Pourquoi tester la performance ?
 
-Benchmarks are a great tool for comparing Rubinius with the rest of the Ruby
-runtimes, i.e. MRI, JRuby, IronRuby and other implementations. It is not so
-much intended to measure Rubinius itself so if you want to contribute writing
-benchmarks make sure to follow these steps:
+Les benchmarks (test de performances) sont des outils puissants pour comparer
+Rubinius aux autres environnement d'execution et implémentation, c'est-à-dire
+à MRI, JRuby, IronRuby. Il ne s'agit pas tant de mesurer Rubinius lui-même,
+donc si vous voulez participer à l'écriture de benchmarks, suivez les étapes
+suivantes :
 
-  1.  Find existing benchmarks in rubinius/benchmarks and study their layout.
-  3.  Each benchmark file should measure one specific aspect of Ruby. For 
-      example different ways of deleting keys/values from a Hash.
-  4.  Use the benchmark framework.
-  5.  Keep the benchmarks short and simple.
-  6.  The benchmarks are not meant to measure Rubinius. So if you're writing a 
-      benchmark for a class with bang and no-bang methods you will want to use
-      a duplicate of a variable in the bang method but you don't need to dup
-      in the no-bang method. 
 
-If you want to test a benchmark you can run it file or even directory wise:
+
+  1.  Trouvez un benchmark existant dans rubinius/benchmarks et étudiez-le. 
+  2.  Tous les benchmarks devraient mesurer un aspect spécifique de Ruby.
+      Par exemple les différentes façon de supprimer des paires clé/valeur 
+      d'un Hash.
+  3.  Utilisez le framework benchmark.  
+  4.  Faites un test simple et court. 
+  5.  Les benchmarks ne sont pas censé mesurés Rubinius. Donc si vous écrivez
+      un test pour une classe avec une methode destructive (généralement elle
+      se termine par '!') et non destructive, vous voudrez sans doute utilisez 
+      une variable dupliquer pour la méthode destructive, mais vous n'avez pas
+      besoin d'une copie pour la version non destructive. 
+
+Si vous voulez tester un benchmark vous pouvez executer le fichier qui contient
+le benchmark ou même le répertoire entier:
+
+Vous pouvez executer un benchmark particulier en executant le fichier qui le
+contient ou vous pouvez executer tous les benchmarks d'un répertoire.
 
     bin/benchmark benchmark/core/string/bench_case.rb
     bin/benchmark benchmark/core

@@ -110,6 +110,7 @@ La commande est `set system.memory.dump <filename>`. Le dump du tas est écrit
 dans le dossier de travail courant pour le programme qui execute l'agent.
 
 ## Analyser le dump du tas
+
 Le fichier résultant du dump du tas est écrit dans un format bien documenté.
 Il existe deux outils capables de lire et  d'interpréter ce format. Ce sont
 deux projets distincts du projet Rubinius.
@@ -121,9 +122,8 @@ en trois colonnes, qui correspondent au nombre d'objet visible dans le tas,
 à la classe de ces objets, et le nombre total d'octets occupés par les toutes
 instances de ces objets.
 
-
-Running the tool against a heap dump captured from our `leak.rb` program, it gives us
-a small hint as to where the leak resides. The output is edited for length.
+Executez l'outil sur le dump du tas extrait du programme `leak.rb` ; il nous
+donne une indication de l'endroit où la fuite se situe. 
 
     $ rbx -I /path/to/heap_dump/lib /path/to/heap_dump/bin/histo.rb heap.dump 
         169350   Rubinius::CompactLookupTable 21676800
@@ -141,21 +141,27 @@ a small hint as to where the leak resides. The output is edited for length.
             12                   FFI::Pointer 480
              2                    ZMQ::Socket 96
 
-Nothing listed looks too outrageous in this example. However, a few things are notable.
 
-1. The largest footprint is consumed by `Rubinius::CompactLookupTable` which is a 
-class that the example code never directly instantiates and weighs in at about 20MB. 
-So, some internal Rubinius structures are reported by the heap dump. It is 
-interesting but doesn't help pinpoint our particular leak.
+Rien de ce qui est listé ci-dessus ne semble exagéré. Cependant, on remarque
+les détails suivants:
 
-2. The `ZMQ::Message` class listed on line 3 is the first class shown that the example
-code directly instantiates. There are nearly 170k instances, so this is likely our
-leak.
 
-Sometimes a single snapshot is insufficient to pinpoint a leak. In that situation
-one should take several snapshots of the heap at different times and let the
-heap dump tool perform a *diff* analysis. The *diff* shows what has changed between
-the heap in the *before* and *after*.
+1. L'empreinte la plus volumineuse est causée par `Rubinius::CompactLookupTable`,
+qui est une classe jamais instanciée explicitement dans le code et qui occupe 
+ici 20MB. On en conclut que certaines structures internes à Rubinius sont 
+reportées dans le dump du tas. C'est intéressant, mais peu instructif pour 
+notre fuite de mémoire. 
+
+2. La classe `ZMQ::Message` présente à la troisième ligne est la première 
+classe du rapport qui est explicitement instanciée dans le code de l'exemple.
+Il y a près de 170ko occupés par des instances de cette classe. Il semble que
+ce soit l'origine de la fuite. 
+
+Parfois, un simple cliché (snapshot) n'est pas suffisant pour identifier 
+l'origine de la fuite. Dans cette situation, nous devrions prendre plusieurs
+clichés du tas à différents moment et laisser l'outil d'analyse faire une 
+analyse de *diff*. Le *diff* nous montre ce qui a changé dans le tas *avant*
+et *après*.  
 
     $ rbx -I /path/to/heap_dump/lib /path/to/heap_dump/bin/histo.rb heap.dump heap2.dump
     203110   Rubinius::CompactLookupTable 25998080
@@ -163,26 +169,28 @@ the heap in the *before* and *after*.
     203110                    LibZMQ::Msg 8124400
     203110             FFI::MemoryPointer 8124400
 
-The diff clearly shows us the source of the memory expansion. The code has 200k more
-instances of `ZMQ::Message` between the first and second heap dumps so that is where
-all of the memory growth is coming from.
+Le diff nous montre clairement que la source de la croissance de la mémoire 
+utilisée. Le code a 200k de plus d'instances de `ZMQ::Message` entre le premier
+et le second dump du tas. C'est donc de là que vient la fuite de mémoire.
 
-Examining the code shows two lines as the likely culprit.
+Un examen du code nous montre les deux lignes coupables.
 
     messages << message
     ...
     puts "received #{messages.size} messages in #{elapsed_usecs / 1_000_000} seconds"
 
-It certainly is not necessary to store every message just to get a count at the
-end. Revising the code to use a simple counter variable in its place should solve
-the memory leak.
+Il n'est probablement pas nécessaire de conserver tous les messages pour 
+calculer le total à la fin. Nous pourrions simplement utiliser une variable
+à incrémenter. Nous éviterions ainsi la fuite. 
 
-## Advanced Tools - OSX Only
 
-After modifying the Ruby code to use a simple counter and let the garbage collector
-handle all of the `ZMQ::Message` instances, the program is still leaking like mad.
-Taking two snapshots and analyzing them doesn't give any clue as to the source
-though.
+## Outils avancés - OSX uniquement
+
+Après avoir modifié le code afin d'utiliser un simple compteur et laisser le
+garbage collector (collecte des déchets de la mémoire) traiter les instances
+de `ZMQ::Message`, le programme continue d'occuper la mémoire de manière 
+irrationnelle. En prenant deux clichés et en les analysant, nous n'avons pas
+beaucoup d'indication quant à la source du problème. 
 
     $ rbx -I /path/to/heap_dump/lib /path/to/heap_dump/bin/histo.rb heap3.dump heap4.dump
       -4                          Array -224
@@ -193,14 +201,17 @@ though.
      -90                          Class -10080
     -184                Rubinius::Tuple -29192
 
-This diff shows that a few structures actually shrank between snapshots. Apparently
-the leak is no longer in the Ruby code because the VM cannot tell us what is
-consuming the leaking memory.
 
-Luckily there is a great tool available on Mac OS X called `leaks` that can help us
-pinpoint the problem. Additionally, the man page for `malloc` contains information
-about setting an environment variable that provides additional detail to the
-`leaks` program such as the stack trace at the site of each leak.
+Ce diff montre qu'en effet certaines structure ont diminué entre les clichés.
+Apparemment la fuite ne se trouve plus dans le code Ruby: la machine virtuelle
+est incapable de nous dire ce qui consomme la mémoire.
+
+Par chance, il existe un outil puissant sur Mac OS X appelé `leaks` qui peut
+nous aider à déterminet l'origine du problème. La page de manuel
+de malloc (`man malloc`) contient des informations sur une variable 
+d'environnement qui fournit des détails supplémentaires au programme `leaks`,
+comme la pile d'appel (stack trace) de chaque fuite.
+
 
     $ MallocStackLogging=1 rbx leak.rb tcp://127.0.0.1:5549 1024 10000000 &
     $ leaks 36700 > leak.out
@@ -235,14 +246,16 @@ about setting an environment variable that provides additional detail to the
             zmq::decoder_t::eight_byte_size_ready() | zmq_msg_init_size | malloc | 
             malloc_zone_malloc
 
-The output shows that at the time of the snapshot we had nearly 172k leaked objects.
-The call stack output shows that the leak occurs during the call to `zmq_msg_init_size`
-which doesn't mean anything unless we dig into the implementation of `ZMQ::Message``.
-This is where knowledge of the underlying system is critical; without knowing where
-this particular call is made, it would be much more difficult to track down the
-problem.
+La sortie montre qu'au moment du cliché nous avons presque 172ko d'objets 
+dû à la fuite. La pile d'appel montre que la fuite de mémoire est apparue à 
+l'appel de `zmq_msg_init_size`, ce qui ne signifie pas grand chose avant que 
+nous creusions un peu dans l'implémentation de `ZMQ::Message`. C'est ici que 
+la connaissance du système sous-jacent est essentiel ; il serait beaucoup plus 
+difficile de traquer le problème sans savoir où cet appel est fait.
 
-As it turns out, the `ZMQ::Message` class allocates some memory via `malloc` that is not
-tracked by the Rubinius GC. It needs to be manually deallocated.
+Il s'avère que `ZMQ::Message` alloue de la mémoire via `malloc` qui n'est pas
+traquer par le garbage collector (GC) de Rubinius. Il a besoin d'être 
+explicitement désalloué. 
 
-Changing the code to call `ZMQ::Message#close` resolves the last leak.
+Un appel approprié à `ZMQ::Message#close` dans notre code resoud le problème 
+de mémoire.
