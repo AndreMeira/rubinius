@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: IO
+layout: doc_fr
+title: Entrée/Sortie (IO)
 previous: Concurrency
 previous_url: systems/concurrency
-next: C-API
+next: API C
 next_url: systems/c-api
 review: true
 ---

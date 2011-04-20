@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: Foreign Function Interface
+layout: doc_fr
+title: Interface des fonctions externes (ffi)
 previous: Primitives
 previous_url: systems/primitives
-next: Concurrency
+next: Concurrence
 next_url: systems/concurrency
 review: true
 ---

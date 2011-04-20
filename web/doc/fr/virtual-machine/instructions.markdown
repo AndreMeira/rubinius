@@ -1,9 +1,9 @@
 ---
-layout: doc_en
+layout: doc_fr
 title: Instructions
 previous: Virtual Machine
 previous_url: virtual-machine
-next: Custom Dispatch Logic
+next: Logique de distribution personnalisée
 next_url: virtual-machine/custom-dispatch-logic
 ---
 

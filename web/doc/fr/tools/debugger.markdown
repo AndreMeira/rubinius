@@ -1,20 +1,19 @@
 ---
-layout: doc_en
-title: Debugger
-previous: Tools
+layout: doc_fr
+title: Deboggeur
+previous: outils
 previous_url: tools
-next: Profiler
+next: Profileur
 next_url: tools/profiler
 ---
+Rubinius comprend un déboggueur de code source Ruby.
 
-Rubinius includes a reference Ruby source-level debugger.
+## Invoquer le Deboggeur
 
-## Invoking in Code
+Le deboggeur de Rubinius peut être invoqué depuis du code en embarquant 
+le déboggueur et en appelant sur lui la méthode start.
 
-The Rubinius debugger can be invoked from code by embedding a call to start
-the debugger
-
-Consider the following code in app.rb
+Supposez que le code suivant se trouve dans app.rb
 
     class Toast
       attr_accessor :setting
@@ -27,7 +26,7 @@ Consider the following code in app.rb
 
     p Toast.new.setting
 
-Running the code in Rubinius would produce the following:
+Executer ce code dans rubinius devrait produire ce qui suit:
 
     $ rbx app.rb
 
@@ -72,17 +71,18 @@ Running the code in Rubinius would produce the following:
     debug> c
     :light_brown
 
-As shown, help for the debugger commands is available by typing `help` when in
-the debugger.
+
+Comme vous le voyez, l'aide du déboggueur est accessible en tapant `help` quand
+vous entrez dans le mode de déboggage.
 
 
-## Invoking from the Command Line
+## Invoquer le déboggueur depuis la ligne de commande
 
-The Rubinius debugger can be invoked from the command line and will present
-the debugger prompt just before loading the script specified on the command
-line.
+Le déboggueur Rubinius peut être invoqué depuis la ligne de commande. Dans ce
+cas vous entrerez dans le mode prompt juste avant que le script spécifié
+dans la ligne de commande soit chargé.
 
-Consider the following Ruby code in bug.rb:
+Supposez que le code suivant se trouve dans bug.rb
 
     def problem_code
       puts "I have a problem"
@@ -92,8 +92,8 @@ Consider the following Ruby code in bug.rb:
 
     problem_code
 
-To debug this code, start the debugger from the command line with the
-`-Xdebug` option.
+Pour débogguer ce code, vous pouvez lancer le déboggueur en ligne de commande 
+grâce à l'option `-Xdebug` de rbx.
 
     $ rbx -Xdebug bug.rb
 
@@ -126,5 +126,7 @@ To debug this code, start the debugger from the command line with the
     | 7: problem_code
     debug> c
 
-As you can see, executing `p a = 4` in the debugger changes the value of the
-local variable `a` and affects the execution of the Ruby code.
+Comme vous pouvez le constater, l'execution de `p a = 4` dans le déboogueur
+change la valeur de la variable locale a et affecte l'execution du code
+Ruby.
+

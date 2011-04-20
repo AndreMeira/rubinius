@@ -1,9 +1,9 @@
 ---
-layout: doc_en
-title: Concurrency
+layout: doc_fr
+title: Concurrence
 previous: FFI
 previous_url: systems/ffi
-next: IO
+next: Entrée/Sortie (IO)
 next_url: systems/io
 review: true
 ---
